@@ -1,4 +1,14 @@
-//how to set up the web_application
+
+
+Wei sicong  in 20/03/2017
+
+my main code about django is at /web_application_for_gaokao_setence_correction/itemrtweb/views
+
+the code about html is at /web_application_for_gaokao_setence_correction/templates
+
+the code about search is at /web_application_for_gaokao_setence_correction/search
+
+//to set up the web_application
 
 //command line in mac os(unix)
 1  sudo install pip
