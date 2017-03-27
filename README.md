@@ -1,4 +1,7 @@
+This is a web_application for learning English(Gaokao sentence sorrection)
 
+The backend is build by python-django
+The front end is bulid base on bootstrap
 
 Wei sicong  in 20/03/2017
 
