@@ -1,0 +1,108 @@
+import nltk
+import os
+from django.shortcuts import redirect
+from itemrtdb.models import *
+#from stanford_corenlp_pywrapper import CoreNLP
+from nltk.parse.stanford import StanfordParser
+import json
+from nltk import tag
+#st = CoreNLP("parse", corenlp_jars=["/home/VMadmin/stanford-corenlp-full-2015-12-09/*"])
+#st = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz")
+def POS_question(content, answer):
+    keywordPosition = []
+    posKeyword = []
+    content = nltk.sent_tokenize(content)
+    splitContent = [nltk.word_tokenize(sent) for sent in content]
+    eachanswer = answer.split('...')
+    index_ans=0
+    recontent=[]
+    sentenceIndex = []
+    for sc in range(len(splitContent)):
+        eachsentence = []
+        for index in range(len(splitContent[sc])):
+            if '*' in splitContent[sc][index]:
+                eachposition = []
+                splitAnswer = eachanswer[index_ans].split(' ')
+                kwLen = len(splitAnswer)
+                index_ans = index_ans+1
+                for sa in splitAnswer:
+                    eachsentence.append(sa)
+                for kl in range(0,kwLen):
+                    eachposition.append(index+kl)
+                keywordPosition.append(eachposition)
+                sentenceIndex.append(sc)
+            else:
+                eachsentence.append(splitContent[sc][index])
+        recontent.append(eachsentence)
+    stcontent = [' '.join(recon) for recon in recontent]
+    print stcontent
+    fo = open('input', 'w')
+    for cont in stcontent:
+        fo.write(cont)
+    fo.close()
+    os.system('java -cp "/home/VMadmin/stanford-corenlp-full-2015-12-09/*" \-Xmx2g edu.stanford.nlp.pipeline.StanfordCoreNLP -annotators tokenize,ssplit,parse -file input -outputFormat json')
+    with open('input.json') as data_file:
+        fo = json.load(data_file)
+    dependency = []
+    t = []
+    for k in fo['sentences']:
+        for k1 in k["basic-dependencies"]:
+            print k1
+            t1 = [k1['dep'],k1['dependent'],k1['governor']]
+            t.append(t1)
+        dependency.append(t)
+    transfer = [tag.pos_tag(sent.split()) for sent in stcontent]
+    pos_tag =[]
+    for sent in transfer:
+        k1= [word[1] for word in sent]
+        pos_tag.append(k1)
+    #pos_tag = [st.parse_doc(sent)['sentences'][0]['pos'] for sent in stcontent]
+    #dependency = [st.parse_doc(sent)['sentences'][0]['deps_basic'] for sent in stcontent]
+
+
+    print pos_tag
+    print dependency
+    pos_content = []
+    dependency_rel1 = []
+    dependency_rel2 = []
+    for sent in pos_tag:
+        for word in sent:
+            pos_content.append(word)
+    i = 0
+    for kw in keywordPosition:
+        es=sentenceIndex[i]
+        i=i+1
+        for ek in kw:
+            for ele in dependency[es]:
+                if ele[1] == ek:
+                    dependency_rel1.append(ele[0])
+                else:
+                    dependency_rel1.append('0')
+                if ele[2] == ek:
+                    dependency_rel2.append(ele[0])
+                else:
+                    dependency_rel2.append('0')
+    i = 0
+    for kw in keywordPosition:
+        es = sentenceIndex[i]
+        i=i+1
+        for ek in kw:
+            posKeyword.append(pos_tag[es][ek])
+    posKeywords = ' '.join(posKeyword)
+    pos_content = ' '.join(pos_content)
+    dependency_rel1 = ' '.join(dependency_rel1)
+    dependency_rel2 = ' '.join(dependency_rel2)
+    return posKeywords, pos_content, dependency_rel1, dependency_rel2
+def lists(question, answer):
+    mycontentlist = []
+    myanswerlist = []
+    myposlist = []
+    mydependencylist1 = []
+    mydependencylist2 = []
+    posKeywords, pos_content, dependency1, dependency2 = POS_question(question,answer)
+    myposlist.append(posKeywords)
+    mydependencylist1.append(dependency1)
+    mydependencylist2.append(dependency2)
+    mycontentlist.append(question)
+    myanswerlist.append(answer)
+    return myposlist, mycontentlist, myanswerlist, mydependencylist1, mydependencylist2

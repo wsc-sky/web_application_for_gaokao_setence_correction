@@ -1,0 +1,82 @@
+{% extends "template.base.html" %}
+
+
+{% block title %}Flag Question{% endblock %}
+
+
+{% block content %}
+      
+<div class="row" id="flag-question-content">
+        
+<div class="col-md-12">
+          
+{% if not submitted %}
+          
+<blockquote>
+            
+<p>这一题有什么错误吗？</p>
+            
+<div>请输入您的意见和问题，我们会查看您的回复。</div>
+          
+</blockquote>
+          {% if form.errors %}
+          
+
+<div class="alert alert-danger">
+            
+<strong>注意!</strong> 请填完所有选项， 重新提交!
+          </div>
+          
+{% endif %}
+          
+
+<form class="form-basic" method="post" role="form">
+            
+{% csrf_token %}
+            
+{{ form.non_field_errors }}
+            
+<div class="form-group {% if form.issue.errors %}has-error{% endif %}">
+              
+<label for="{{ form.issue.id_for_label }}" class="control-label">题目问题</label>
+              
+<div>
+                
+<textarea class="form-control" id="{{ form.issue.id_for_label }}" name="{{ form.issue.html_name }}" placeholder="输入您的问题" autofocus="true" rows="10">{{ form.issue.value|default_if_none:''}}</textarea>
+              
+</div>
+            
+</div>
+            
+<div class="form-group">
+              
+
+<div class="pull-right">
+                
+<button id="feedback_btn" type="button" class="btn btn-primary" data-saving-text="Flagging...">标记这一题</button>
+              
+</div>
+            
+
+</div>
+          
+</form>
+          
+{% else %}
+          
+<blockquote>
+            
+
+<p><strong>成功!</strong> 您的问题已提交。</p>
+            
+<div>我们会尽快查看，如果需要我们会联系您。</div>
+          
+</blockquote>
+          
+{% endif%}
+        
+</div>
+      
+</div>
+
+{% endblock %}

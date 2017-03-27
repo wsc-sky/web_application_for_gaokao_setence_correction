@@ -1,0 +1,310 @@
+{% extends "template.base.html" %}
+
+{% load itemrtfilter %}
+
+{% block title %}Paper Test{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+        </script>
+{% endblock %}
+
+{% block content %}
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>考卷测试结果 <small class="pull-right">测试 ID: <span id="test_id">{{ test.id }}</span></small></h1>
+        </div>
+      </div>
+      <div id="contentrow" class="row">
+        <div class="col-md-3">
+         <div class="bs-sidebar" data-spy="affix" data-offset-top="75">
+            <ul class="nav bs-sidenav">
+              <li><a>
+                <h4>总分:</h4>
+                <p class="text-center"><span class="h4">{{ final_score }}</span><span class="h3">/{{ test.questions.count }}</span></p>
+              </li></a>
+              <li id="nav_questions">
+                <a href="#">题目：</a>
+                <ul class="nav">
+                  {% for question in test.questions.all %}
+                  <li><a href="#question-{{ forloop.counter }}">题目 {{ forloop.counter }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <div>
+                  <a href="/test/paper_2/" class="btn btn-danger" style="width: 100%;" >退出</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9">
+            <div id="chartContainer" style="height: 450px; width: 100%;"></div>
+
+		  
+          {% for question in test.questions.all %}
+<!-- change this
+          <div class="multiquestion-row">
+            <div id="question-{{ forloop.counter }}" class="anchor"></div>
+            <div class="row">
+              <div id="qlabel" class="col-md-1">
+                <h3>Q{{ forloop.counter }}:</h3>
+              </div>
+              <div class="col-md-11"{% if not user.is_staff %} style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default;"{% endif %}>
+                {% autoescape off %}
+                语法项目: {{question.topic}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				难度: 
+        {% if question.difficulty == 5 %} 极难
+                {% elif question.difficulty == 4 %}困难
+        {% elif question.difficulty == 3 %}适中
+                {% elif question.difficulty == 2 %}简单
+                {% elif question.difficulty == 1 %}极易
+                {% endif %}<br>
+               {{ question.content|ast}} <br>
+               <br>
+		正确答案: {{question.choice}}
+
+                {% endautoescape %}
+              </div>
+            </div>
+            <div class="row">
+              <div id="alabel" class="col-md-1">
+                <h3>A:</h3>
+              </div>
+              <div id="acontent" class="col-md-3">
+                <span class="form-control form-answer-field" disabled name="answer" placeholder="Your answer" rows="1">{% for response in test.responses.all %}{% if response.question == question %}{{ response.response}}{% endif %}{% endfor %}</span>
+              </div>
+              <div id="asubmit" class="col-md-2">
+                <div class="btn {% for response in test.responses.all %}{% if response.question == question %}{% if response.correctness > 0.8 %}btn-success{% else %}btn-danger{% endif %}{% endif %}{% endfor %} form-control">{% for response in test.responses.all %}{% if response.question == question %}{% if response.correctness > 0.8 %}正确!{% else %}错误!{% endif %}{% endif %}{% endfor %}</div>
+              </div>
+			  <a href="/question/view/{{question.id}}" class="btn btn-primary" role="button">详细</a>
+            </div>
+          </div>
+          -->
+ <div class="multiquestion-row" >
+    <div id="question-{{ forloop.counter }}" class="anchor"></div>
+    <div class="row" style="background-color: #FAFAFA">
+   
+      <div id="qlabel" class="col-md-1">
+                            {% if question.topic.name == '高考真题'%}
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q1:</span> </strong> <br><br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q2:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q3:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q4:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q5:</span> </strong> <br><br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q6:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q7:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q8:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q9:</span> </strong> <br><br><br><br><br>
+<strong><span style="font-size:28px" >  
+      Q10:</span> </strong> <br><br><br><br>
+{% else %}
+<strong><span style="font-size:28px" >  
+      Q{{ forloop.counter }}:</span> </strong> 
+
+{% endif %}
+</div>
+    {% if question.topic.name == '高考真题'%}
+      <div class="col-md-10">
+
+      {% else %}
+      <div class="col-md-9">
+      {% endif %}
+      <p>  
+      <span style="font-size:17px" > {{question.content|ast}}</span>  ({% autoescape off %}
+                语法项目: {{question.topic}}; 
+        难度: 
+        {% if question.difficulty == 5 %} 极难
+                {% elif question.difficulty == 4 %}困难
+        {% elif question.difficulty == 3 %}适中
+                {% elif question.difficulty == 2 %}简单
+                {% elif question.difficulty == 1 %}极易
+                {% endif %})<br>
+                     {% endautoescape %}</p> 
+                      {% if question.topic.name == '高考真题'%}
+{% for response in test.responses.all %}{% if response.question == question %}<span id = "your_answer" hidden > {{ response.response}}</span><p id = "analysis" hidden>{{ question.source}}</p><p id = "qns_answer" hidden>{{ question.choice}}</p>{% endif %}{% endfor %}
+
+
+           <script type="text/javascript">
+          var choice, analysis, qns_answer;
+          time = new Date().getHours();
+          choice = document.getElementById("your_answer").innerHTML;
+          analysis = document.getElementById("analysis").innerHTML;
+          qns_answer = document.getElementById("qns_answer").innerHTML;
+
+          var choice_all=choice.split(";");
+          var analysis_all=analysis.split(";");
+          var qns_answer_all=qns_answer.split(";");
+
+          var score_f = 0;
+          var s = choice_all[0];
+
+          choice_all[0] = removeSpace(s); 
+        
+          for(var i=0;i<qns_answer_all.length;i++){          
+            
+  
+            if(choice_all[i] == qns_answer_all[i]){
+
+          score_f++;
+
+}}          
+
+document.write("<span style='font-size:20px; color:#00CD00;' >"+"你的分数："+score_f+"/10"+"</span>"+"<br>");
+          for(var i=0;i<qns_answer_all.length;i++){  
+            if(choice_all[i] == qns_answer_all[i]){
+               document.write("<br>"+"<span style='font-size:14px' >你的答案</span>"+":"+choice_all[i]+ "<span class='glyphicon glyphicon-ok' style='color:#00CD00; float:right; font-size: 60px;'></span>"+"<br>");
+            }else{
+document.write("<br>"+"<span style='font-size:14px' >你的答案</span>"+":"+choice_all[i]+ "<span class='glyphicon glyphicon-remove' style='color:#d9534f; float:right; font-size: 60px;'></span>"+"<br>");
+          }
+document.write("答案解析"+":"+analysis_all[i]+"<hr style='color: #EEE0E5'>"+ "<br>");
+
+}
+
+function removeSpace(str) {
+return str.replace(/(^\s+)|(\s+$)/g, "");
+}
+            
+  </script>     
+
+  {% else %}
+  
+                      <div id="acontent" >
+                <span style="font-size:14px" > 你的答案:
+                </span> {% for response in test.responses.all %}{% if response.question == question %}<span id = "your_answer" > {{ response.response}}</span><p id = "analysis" hidden>{{ question.source}}</p><p id = "qns_answer" hidden>{{ question.choice}}</p>{% endif %}{% endfor %}
+</p>
+<span style="font-size:14px" >
+        答案分析 : 
+        </span><b>{{question.source}}</b> <br>
+
+
+           
+              </div>
+{% endif %}
+
+
+              </div>
+
+
+
+                      {% if question.topic.name == '高考真题'%}
+
+            {% else %}
+                                  <div class="col-md-1">
+       {% for response in test.responses.all %}{% if response.question == question %}{% if response.correctness > 0.8 %}
+        <span class="glyphicon glyphicon-ok" style="color:#00CD00; font-size: 60px; padding-top:26px;"></span>
+        {% else %}
+        <span class="glyphicon glyphicon-remove" style="color:#d9534f;font-size: 60px;padding-top:26px;"></span>
+        {% endif %}{% endif %}{% endfor %}
+</div>
+
+
+        {% endif %}
+
+
+            </div>
+
+<hr style="color: #EEE0E5"></div>
+
+
+
+
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">模式</h4>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary">保存修改</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      {% if debug %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Debug Data <small>(Normally hidden from user)</small>
+        </div>
+        <div class="panel-body">
+          <p>Question: {{question.id}}</p>
+          <p>Difficulty (1-5): {{question.difficulty}}</p>
+          <p>Current Ability: {{debug.ability}}</p>
+          <p>Item info: {{question.question_info}}</p>
+        </div>
+      </div>
+      {% endif %}
+
+{# Code for injecting charts into page #}
+   
+
+	<script>
+        window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				title: {
+					text: "考卷测试结果"
+				},
+				axisY: {
+					title: "题目数量",
+					valueFormatString: "#0",
+				},
+				data: [{
+					type: "stackedColumn",
+					legendText: "正确",
+					showInLegend: "true",
+					dataPoints: [
+					{% for i in correct %} 
+					{ y: {{correct|keyvalue:i}}, label: {% if i == 5 %} "极难"
+                {% elif i == 4 %}"困难"
+				{% elif i == 3 %}"适中"
+                {% elif i == 2 %}"简单"
+                {% elif i == 1 %}"极易"
+                {% endif %} },
+					{% endfor %}
+					]
+				}, {
+					type: "stackedColumn",
+					legendText: "错误",
+					showInLegend: "true",
+					indexLabel: "#total",
+					yValueFormatString: "#0",
+					indexLabelPlacement: "outside",
+					dataPoints: [
+					{% for i in correct %} 
+					{ y: {{total|keyvalue:i}}-{{correct|keyvalue:i}}, label: {% if i == 5 %} "极难"
+                {% elif i == 4 %}"困难"
+        {% elif i == 3 %}"适中"
+                {% elif i == 2 %}"简单"
+                {% elif i == 1 %}"极易"
+                {% endif %} },
+					{% endfor %}
+					]
+				}
+				]
+			});
+			chart.render();
+			}
+      </script>
+      {% endblock %}

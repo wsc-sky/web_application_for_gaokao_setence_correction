@@ -1,0 +1,87 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles %}
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Insert New Question{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>插入新问题</h1> 
+
+      {% if saved %}<div class="alert alert-success">题目已经成功保存</div>{% endif %}
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors.as_text }}
+      </div>
+      {% endif %}
+      <form class="form-basic" method="post" role="form">
+        {% csrf_token %}
+        <div class="row">
+	<div class="col-sm-1"></div>
+          <div class="col-sm-10">
+            <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">题目<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" rows="2" placeholder="Question content excluding MCQ options. Replace ______ with an asterisk (*)">{{ form.content.value|default_if_none:'' }}</textarea>
+				<small>例 (数据库中题目）: It was * honour to have * European diplomat at our Graduation Ceremony. </small>
+			</div>
+			
+        </div>
+         </div>
+		 <br>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <div class="well">
+			  <button type="submit" class="btn btn-primary">插入题目</button>
+              <a href="#" onclick="history.back(); return false;" class="btn btn-danger">取消</a>
+            </div>
+          </div>
+        </div>
+      </form>
+{{Qcount}}	  
+	 {% if selected_question %}
+      <div class="alert alert-danger">数据库中已有相似题目，请重新输入。 </div>
+	  <div class="col-md-12">
+            {% for question in selected_question %}
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3>题目 {{ question.id }}
+				<span class="pull-right">
+				<a href="/question/view/{{ question.id }}" class="btn btn-sm btn-info">预览</a> 
+				<a href="/question/edit/{{ question.id }}" class="btn btn-sm btn-warning">编辑</a> 
+				<a href="/question/delete/{{ question.id }}" class="btn btn-sm btn-danger btn-question-delete">删除</a>
+				</span>
+				</h3>
+              </div>
+              <div id="qdata" class="col-md-12" style="padding-bottom: 10px;">
+                {% if question.difficulty == 5 %}
+                <span class="label label-danger"> 难度: 极难</span>
+                {% elif question.difficulty == 4 %}
+                <span class="label label-warning">难度： 困难</span>
+                {% elif question.difficulty == 3 %}
+                <span class="label label-warning">难度： 适中</span>
+                {% elif question.difficulty == 2 %}
+                <span class="label label-success">难度： 简单</span>
+                {% elif question.difficulty == 1 %}
+                <span class="label label-success">难度： 极易</span>
+                {% endif %}
+                {% for tag in question.tags.all %}<a href="/question/list/tags/?tags={{ tag.name }}" class="label label-info">标签: {{ tag.name }}</a> {% endfor %}
+              </div>
+              <div class="col-md-12">
+                {% autoescape off %}
+               <b>{{ question.text|ast}}</b> <br>
+			   {{question.choice|abcd}}
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+	  {% endif %}
+	  
+{% endblock %}

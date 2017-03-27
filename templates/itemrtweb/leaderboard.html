@@ -1,0 +1,141 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+      <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>排行榜</h1>
+          <blockquote>
+            <p>分数和名次</p>
+            <small>加油，努力!! </small>
+          </blockquote>
+ <div class="row">
+
+
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+          
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+           <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/leaderboard/{{ topic.id }}/">{{ topic.name }}{% if learn_progress|keyvalue:topic > 0 %} <span class="glyphicon glyphicon-ok"></span>{% endif %}</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+            
+            </div>
+          </div>
+           </div>
+
+ 		   <div class="col-md-9">
+		   <p><b>排行榜： {% if selected_topic %}{{selected_topic}}{% else %} 所有语法项目 {% endif %}</b>
+		   <div id="list-question-filter">
+            <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#general" data-toggle="tab">全部</a></li>
+                <li{% if tags %} class="active"{% endif %}><a href="#papertest" data-toggle="tab">考卷测试</a></li>
+				<li{% if tags %} class="active"{% endif %}><a href="#cattest" data-toggle="tab">练习</a></li>
+            </ul>
+            <div class="tab-content">
+           <div class="tab-pane{% if not tags %} active{% endif %}" id="general">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+<div class="panel panel-default">              
+<table class="table table-striped panel-body"> 
+<thead>
+<th>序号</th>
+<th>姓名</th>
+<th>分数</th>           
+</thead>
+                
+<tbody>                
+{% for user in all_user %}
+
+{% ifequal selected_user user %}   
+<tr>               
+<td bgcolor="#428BCA">{{ forloop.counter }}</td>                  
+<td bgcolor="#428BCA">{{user.first_name}}</td>
+<td bgcolor="#428BCA">{{user.score|floatformat:3 }}</td> 
+</tr>
+{% else %}
+<tr>
+<td>{{forloop.counter }}</td>                  
+<td>{{user.first_name}}</td>
+<td>{{user.score|floatformat:3 }}</td>
+</tr>
+{% endifequal %}
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="tab-pane{% if tags %} active{% endif %}" id="papertest">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+ <table class="table table-striped panel-body"> 
+<thead>
+<th>序号</th>
+<th>姓名</th>
+<th>分数</th>           
+</thead>
+                
+<tbody>                
+{% for user in all_user %}
+{% ifequal selected_user user %}   
+<tr>               
+<td bgcolor="#428BCA">{{ forloop.counter }}</td>                  
+<td bgcolor="#428BCA">{{user.first_name}}</td>
+<td bgcolor="#428BCA">{{user.paperscore|floatformat:3 }}</td> 
+</tr>
+{% else %}
+<tr>
+<td>{{forloop.counter }}</td>                  
+<td>{{user.first_name}}</td>
+<td>{{user.paperscore|floatformat:3 }}</td>
+</tr>
+{% endifequal %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane{% if tags %} active{% endif %}" id="cattest">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+ <table class="table table-striped panel-body"> 
+<thead>
+<th>序号</th>
+<th>姓名</th>
+<th>分数</th>           
+</thead>
+                
+<tbody>                
+{% for user in all_user %}
+{% ifequal selected_user user %}   
+<tr>               
+<td bgcolor="#428BCA">{{ forloop.counter }}</td>                  
+<td bgcolor="#428BCA">{{user.first_name}}</td>
+<td bgcolor="#428BCA">{{user.catscore|floatformat:3 }}</td> 
+</tr>
+{% else %}
+<tr>
+<td>{{forloop.counter }}</td>                  
+<td>{{user.first_name}}</td>
+<td>{{user.catscore|floatformat:3 }}</td>
+</tr>
+{% endifequal %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+{% endblock %}

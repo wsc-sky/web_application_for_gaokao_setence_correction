@@ -1,0 +1,133 @@
+{% extends "template.base.html" %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block content %}
+      <div>
+        <h1>管理控制台</h1>
+        <br>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-primary">
+              <div class="panel-heading dropdown">
+                <div class="panel-title">
+                  {{ PROJECT_NAME }}
+				  </div>
+              </div>
+                <ul class="nav nav-stacked nav-compact">
+                <li class="nav-header">管理员</li>
+					<li><a href="/control/topic/"><strong>语法项目管理</strong></a></li>
+					<li><a href="/question/"><strong>题目管理</strong></a></li>
+					<li><a href="/control/concept/"><strong>概念标签管理</strong></a></li>
+					<li><a href="/control/tag/"><strong>词汇标签管理</strong></a></li>
+					<!--<li><a href="/control/learn/"><strong>Learn Management</strong></a></li>-->
+				<li class="nav-header">分析工具</li> 
+					<li><a href="/analyse/"><strong>标签云</strong></a></li>   
+					<li><a href="/analyse/diff/"><strong>难度系数</strong></a></li> 
+					<li><a href="/analyse/topic/"><strong>语法项目</strong></a></li> 
+                <li class="nav-header">控制</li>
+                  	<li><a href="/control/flaggedqn/">标记问题 ({{qf}})</a></li>
+					<!--<li><a href="/control/stats/">Questions Statistics</a></li>-->
+				<li class="nav-header">测试机制</li>
+					<li><a href="/eng_admin_regenkeyword/">重新生成词汇标签</a></li>
+					<li><a href="/eng_admin_regenconcept/">重新生成概念标签</a></li>
+					<li><a href="/eng_admin_regendiff/">重新生成难度系数</a></li>
+					<li><a href="/eng_admin_regenparse/">重新生成题目parse</a></li>
+					<li><a href="/eng_admin_regentopic/">重新生成题目语法项目</a></li>
+                <!--<li class="nav-header">CAT Test</li>
+					<li><a href="/control/cattest/settings/">测试设置</a></li>-->
+                </ul>
+            </div>
+          </div>
+          <div class="col-md-9">
+            {% block control-content %}         
+			<div class="alert alert-info">请从左方选择一个选项</div>
+            <div class="panel panel-default">
+              <div class="panel-heading">系统升级</div>
+              <div class="panel-body">
+			  <div >
+        
+                  <h5>版本 2016.07.01 </h5>
+                  <ul>
+                    <li>语法项目管理</li>
+					<li>插入/重新排序/删除 @ <a href="/control/topic/">语法项目管理</a></li>
+                  </ul>
+                </div>
+			  <div >
+                  <h5>版本 2016.06.25 </h5>
+                  <ul>
+                    <li>考题测试-击破语法项目</li>
+					<li>语法项目测试图表 @ <a href="/test/paper/proficiency/">考题测试</a></li>
+                  </ul>
+                </div>
+			  <div >
+                  <h5>版本2016.06.21/24 </h5>
+                  <ul>
+                    <li>考题测试-击破语法项目</li>
+					<li>语法项目能力表 @ <a href="/test/paper/topic">考题测试</a></li>
+                  </ul>
+                </div>
+				<div >
+                  <h5>版本 2016.06.13</h5>
+                  <ul>
+                    <li>语法项目管理 [概念标签]</li>
+					<li>概念标签 @ <a href="/control/concept">概念标签</a></li>
+                  </ul>
+                </div>
+			  <div >
+                  <h5>版本 2016.06.10-12 </h5>
+                  <ul>
+                    <li>练习 @ <a href="/test/cat">CAT 测试</a></li>
+					<li> 移除时间</li>
+					<li>- 右任务栏改为个人历史记录</li>
+					<li>- 测试@ <a href="/test/paper">考题测试</a></li>
+					<li> 设置改为基础设置和高级设置 </li>
+                  </ul>
+                </div>
+			  	  <div >
+                  <h5>版本 2016.06.06 </h5>
+                  <ul>
+                    <li>练习 @ <a href="/test/cat">CAT 练习</a></li>
+					<li>CAT 测试进展 @ <a href="/test/progress">进展</a></li>
+					<li>测试 @ <a href="/test/paper">考题测试</a></li>
+					<li>考题测试能力分析 @ <a href="/test/progress/topic">能力分析</a></li>
+                  </ul>
+                </div>
+                <div >
+                  <h5>版本 2016.06.05 </h5>
+                  <ul>
+                    <li>改版插入问题</li>
+					<li>能够检查数据库中是否有相似的题目</li>
+					<li>尝试插入问题 @  <a href="/question/new/">插入新问题</a></li>
+                  </ul>
+                </div>
+				 <div >
+                  <h5>版本 2016.06.03</h5>
+                  <ul>
+                    <li>改版问题管理</li>
+					<li>查看问题 @ <a href="/question/view/1/">查看问题</a></li>
+					<li>相关问题 @  <a href="/question/search/1/">相关问题</a></li>
+                  </ul>
+                </div>
+				 <div>
+                  <h5>版本 2016.05.31</h5>
+                  <ul>
+                    <li>管理设置，加入概念标签</li>
+					<li>尝试: <a href="/concept/1/">新的概念标签页</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h5>版本 2016.05.27</h5>
+                  <ul>
+                    <li>初始化网页设置</li>
+                    <li>设置概念标签和词汇标签</li>
+					<li>尝试: <a href="/control/tag/insert/">插入新的词汇标签</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>          
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+{% endblock %}

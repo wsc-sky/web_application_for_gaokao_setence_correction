@@ -1,0 +1,124 @@
+{% extends "template.base.html" %}
+{% load staticfiles itemrtfilter %}
+{% block title %}Topic Proficiency{% endblock %}
+
+{% block content %}
+    
+		
+     <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>测试报告 - 语法项目分析</h1>
+          <blockquote>
+            <p>您的测试结果。 </p>
+            <small>有针对性的训练，提高英语语法水平!!!!</small>
+          </blockquote>
+
+
+<div class="col-md-12">
+		<div id="chartContainer" style="height: 550px; width: 100%;"></div>
+
+
+{% for topic in topics %}
+<div class="col-md-4">
+<div id="{{topic.id}}" style="height: 250px; width: 100%;"></div></div>
+{% endfor %}
+
+</div>
+</div>
+</div>
+</div>
+
+
+		   
+{# Code for injecting charts into page #}
+           
+
+	<script type="text/javascript">
+		window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				title: {
+					text: "语法项目分析"
+				},
+				axisY: {
+					title: "题目数量",
+					valueFormatString: "#0",
+				},
+				data: [{
+					type: "stackedColumn",
+					legendText: "正确",
+					showInLegend: "true",
+					dataPoints: [
+					{% for topic in topics %} 
+					{ y: {{correct|keyvalue:topic.id}}, label: "{{topic.name}}" },
+					{% endfor %}
+					]
+				}, {
+					type: "stackedColumn",
+					legendText: "错误",
+					showInLegend: "true",
+					indexLabel: "#total",
+					yValueFormatString: "#0",
+					indexLabelPlacement: "outside",
+					dataPoints: [
+					{% for topic in topics %} 
+					{ y: {{total|keyvalue:topic.id}}-{{correct|keyvalue:topic.id}}, label: "{{topic.name}}" },
+					{% endfor %}
+					]
+				}
+				]
+			});
+			chart.render();
+			
+			{% for topic in topics %} 
+			var chart = new CanvasJS.Chart("{{topic.id}}", {
+				title: {
+					text: "{{topic.name}}"
+				},
+				axisY: {
+					title: "题目数量",
+					valueFormatString: "#0",
+				},
+				data: [{
+					type: "stackedColumn",
+					legendText: "正确",
+					showInLegend: "true",
+					dataPoints: [
+					{% for i in dict_correct|keyvalue:topic.id %}
+							{y: {{dict_correct|keyvalue:topic.id|keyvalue:i}}, 
+							label: {% if i == 5 %} "极难"
+                {% elif i == 4 %}"困难"
+				{% elif i == 3 %}"适中"
+                {% elif i == 2 %}"简单"
+                {% elif i == 1 %}"极易"
+                {% endif %}},
+						{% endfor %}
+					]
+				}, {
+					type: "stackedColumn",
+					legendText: "错误",
+					showInLegend: "true",
+					indexLabel: "#total",
+					yValueFormatString: "#0",
+					indexLabelPlacement: "outside",
+					dataPoints: [ 
+						{% for i in dict_correct|keyvalue:topic.id %}
+							{y: {{dict_total|keyvalue:topic.id|keyvalue:i}}-{{dict_correct|keyvalue:topic.id|keyvalue:i}},
+							label: {% if i == 5 %} "极难"
+                {% elif i == 4 %}"困难"
+				{% elif i == 3 %}"适中"
+                {% elif i == 2 %}"简单"
+                {% elif i == 1 %}"极易"
+                {% endif %}},
+						{% endfor %}
+					]
+				}
+				]
+			});
+			
+			chart.render();
+			{% endfor %}
+		}
+		
+	</script>	
+	
+      {% endblock %}

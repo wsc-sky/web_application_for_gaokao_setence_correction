@@ -1,0 +1,107 @@
+{% extends "template.base.html" %}
+
+{% block title %}Paper Test{% endblock %}
+
+{% block content %}
+      <div class="row">
+        <div class="col-md-12 col-lg-10 col-lg-offset-1">
+          <h1>Paper Test</h1>
+          <blockquote>
+            <p>Pick some options and begin a paper test to test your skills!</p>
+            <small>Paper Tests are generated using test paper generation techniques according to a user's specification. </small>
+          </blockquote>
+          <form class="form-horizontal" method="post" role="form">
+            {% csrf_token %}
+			<div class="form-group">
+              <label for="qn_time" class="col-sm-3 control-label">Time</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="qn_time" name="qn_time" placeholder="1 minute per question" value="" disabled>
+              </div>
+            </div>
+            <div class="form-group {% if error.num_qn %}has-error{% endif %}">
+              <label for="num_qn" class="col-sm-3 control-label">Number of Questions</label>
+              <div id="acontent" class="col-sm-6">
+			  <!-- <div class="col-sm-6">
+                 <input type="text" class="form-control" id="num_qn" name="num_qn" placeholder="Max. 20" value="">
+              </div> -->
+				<div class="btn-group" data-toggle="buttons">                 
+				<label id="num_qn" class="btn btn-default">
+				<input type="radio" name="numqns" value="5">5</label>
+				<label id="num_qn" class="btn btn-default">
+				<input type="radio" name="numqns" value="10">10</label>
+				<label id="num_qn" class="btn btn-default">
+				<input type="radio" name="numqns" value="15">15</label>
+				<label id="num_qn" class="btn btn-default">
+				<input type="radio" name="numqns" value="20">20</label>
+				<label id="num_qn" class="btn btn-default">
+				<input type="radio" name="numqns" value="">Others<input type="text" placeholder="Max. 20" name="num_qn">​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​</label>
+				</div>
+				</div>
+				</div>
+            <div class="form-group">
+              <label for="qn_diff" class="col-sm-3 control-label">Average Difficulty</label>
+              <div class="col-sm-6">
+			  <div id="acontent" class="col-md-15">
+				<div class="btn-group" data-toggle="buttons">                 
+				<label id="acontent_a" class="btn btn-default">
+				<input type="radio" name="qn_diff" value="1">Very Easy</label>
+				<label id="acontent_b" class="btn btn-default">
+				<input type="radio" name="qn_diff" value="2">Easy</label>
+				<label id="acontent_c" class="btn btn-default">
+				<input type="radio" name="qn_diff" value="3">Average</label>
+				<label id="acontent_d" class="btn btn-default">
+				<input type="radio" name="qn_diff" value="4">Difficult</label>
+				<label id="acontent_e" class="btn btn-default">
+				<input type="radio" name="qn_diff" value="5">Very Difficult</label>
+				</div>
+				</div>
+				</div>
+                <!-- <input type="text" class="form-control" id="qn_diff" name="qn_diff" placeholder="Optional, Range is 1 (Easiest) to 5 (Hardest)" value="">
+              </div> -->
+            </div>
+            
+            
+			 <div class="form-group">
+              <label for="topics" class="col-sm-3 control-label">Topics</label>
+			{% for topic in topics %}
+			<div id="topics" class="col-md-6">
+			<div class="btn-group" data-toggle="buttons">                 
+			<label id="acontent_a" class="btn btn-default">
+			<input type="checkbox" class="form-control" name="topics" id="topics{{ topic.id }}" value="{{ topic.id }}">{{ topic }}</label>
+			</div>
+            {% endfor %}
+			</div>
+			</div>
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3 ">
+                <button type="submit" class="btn btn-primary">Generate Test</button>
+              </div>
+            </div>
+          </form>
+
+
+
+          <form class="form-horizontal" method="post" role="form" style="display:none"> <!---->
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group {% if error == 'incorrect' %}has-error{% endif %}">
+              <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">Subject</label>
+              <div class="col-sm-6">
+                <div class="form-control-static">CZ1007 - Data Structures</div>
+              </div>
+            </div>
+            <div class="form-group {% if error == 'incorrect' %}has-error{% endif %}">
+              <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">Test ID</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="{{ form.username.id_for_label }}" name="test_id" placeholder="" value="{{ form.username.value|default_if_none:'' }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3 ">
+                <button type="submit" class="btn btn-primary">Open Test</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+{% endblock %}

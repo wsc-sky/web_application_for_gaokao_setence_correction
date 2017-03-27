@@ -1,0 +1,1024 @@
+VBD 
+MD VB VBG 
+VBP 
+VBP 
+IN 
+VBZ 
+VBZ 
+MD 
+NN 
+VBD VBN 
+TO 
+MD 
+VBP 
+RP 
+PRP 
+VB 
+IN 
+VBD 
+VBZ 
+VBZ VBN 
+VBD 
+VBZ 
+VBZ 
+IN 
+WDT 
+VBD 
+MD VB 
+IN 
+NN 
+VBP VBN VBG 
+VB 
+IN 
+VBG 
+VBD VBN 
+IN 
+VBZ 
+VBD IN 
+VB PRP$ NN . 
+VBP 
+RP 
+WDT 
+IN 
+VBD 
+PRP 
+VBP 
+RP 
+VBZ 
+IN 
+NNS 
+VBD 
+WP 
+IN 
+VB 
+PRP 
+VBP VBN VBG 
+MD VB VBN 
+VBP 
+VBG 
+PRP 
+VBZ 
+VBZ 
+VBD 
+RB 
+WP 
+VBP 
+RBS JJ 
+IN 
+DT NN 
+VBP 
+VBD 
+VBZ 
+VBD RB 
+IN 
+JJ 
+PRP 
+MD 
+VB 
+NN 
+PRP 
+VBD 
+VBZ PRP 
+VBN 
+IN 
+IN 
+VBP RB 
+VBD 
+IN 
+IN RB 
+PRP 
+RB 
+ 
+VBD 
+VBD VBN 
+IN 
+RP 
+MD RB 
+VBD 
+VBZ VBN VBG 
+DT 
+PRP 
+VBP PRP 
+VBG 
+VBD 
+MD 
+WP$ 
+VBP VBN VBG 
+VBZ 
+VBP 
+VBD VBN 
+IN 
+VBZ 
+VBG 
+PRP 
+VBD 
+IN 
+VBP 
+VBD 
+IN 
+VBN 
+VBD VBN 
+VBP VBG 
+VBG 
+RB 
+IN 
+CC 
+PRP 
+VBD VBN 
+VBZ VBN VBG 
+VBD 
+VBZ 
+MD 
+PRP 
+VB IN 
+PRP 
+IN 
+VBZ 
+VBZ 
+VBD 
+MD VB VBN DT 
+MD NN VB DT 
+VBZ 
+VBD VBN 
+VBD VBN 
+IN 
+WP$ 
+IN 
+VBD RP 
+VBP 
+NN 
+VBP VBN 
+VBP 
+VBD 
+DT NN DT JJ 
+IN 
+PRP 
+VBP 
+VBD VBN VBG 
+VBP 
+IN 
+VBD VBN 
+VBZ 
+MD 
+VBD 
+IN 
+IN 
+VBG 
+VBD VBN 
+NN 
+VBD 
+VBD RB VBN 
+WP$ 
+PRP 
+VBZ RB 
+VB VBN 
+VBD 
+VB IN 
+VBD 
+VB 
+VBG 
+VBZ 
+VBZ VBN VBG 
+VBP 
+VBD 
+IN 
+PRP 
+IN 
+VBN 
+JJR 
+VBP 
+VBZ VBG 
+IN 
+VB 
+VBD 
+VBD 
+VBP 
+IN 
+RB IN 
+VB 
+PRP 
+WP 
+VBD 
+VBP VBN 
+IN 
+NN 
+PRP 
+IN 
+VBZ 
+WP$ 
+VBD 
+VBD 
+VBZ PRP 
+IN 
+VBZ VBN 
+JJS 
+IN NN IN 
+VBZ 
+IN 
+VBD 
+IN 
+VBZ 
+VBD VBN 
+IN 
+VBZ 
+PRP 
+IN 
+VBZ 
+PRP 
+IN 
+VBZ 
+VBZ VBN 
+VBD 
+VBD 
+IN 
+VB 
+VBZ 
+NN 
+VBD VBN 
+RP 
+VBD 
+IN 
+PRP 
+VBZ 
+DT 
+VBP 
+VBD VBN 
+VBP 
+VBZ VBN VBG 
+IN 
+RP 
+VBP 
+VBZ 
+VBZ 
+MD 
+VBZ VBN 
+TO 
+WP 
+VB 
+VBZ 
+VB 
+VBZ PRP 
+VBZ 
+VBZ 
+VB 
+IN 
+DT 
+WP 
+IN 
+VB 
+VBD 
+MD 
+TO 
+VBD NN 
+VBD DT VBG PRP 
+VBP VBN VBG 
+VBZ 
+VBZ 
+IN 
+MD 
+PRP 
+IN 
+VBZ 
+IN 
+VBD VBN VBG 
+JJ 
+VBZ 
+VBD PRP RP 
+MD VB 
+IN 
+VBZ VBN VBG 
+IN 
+VBD VBN 
+MD 
+VBD VBN 
+IN 
+IN 
+PRP MD 
+VBZ 
+RP 
+VBZ 
+VBD 
+VBZ 
+PRP 
+VB 
+VBN 
+MD NNP VB DT 
+IN 
+VBG 
+VBN RB 
+VB 
+JJR 
+VBP VBG 
+IN 
+VBD 
+VBD 
+DT NN DT NN 
+VB 
+VBZ 
+IN 
+IN 
+VBD 
+VBN 
+IN 
+VBP RB VBN IN 
+WDT 
+IN 
+VBZ VBG 
+VBG 
+RB JJ IN DT 
+IN 
+VBD 
+TO 
+VBD 
+RP 
+VBD 
+DT 
+VB 
+MD 
+VBN 
+VBZ PRP 
+VBP 
+RB 
+RBR RB 
+IN 
+VBG 
+VBP 
+PRP 
+IN 
+IN 
+NN 
+RB 
+PRP 
+VBD 
+VBP 
+VBD 
+IN 
+IN 
+VBD 
+JJ 
+IN 
+IN 
+WP 
+VBZ 
+VB 
+VBZ 
+IN 
+IN 
+VBZ VBN 
+VBP RB 
+RP 
+WP 
+VBD VBN 
+VB 
+IN 
+VBZ VBG 
+VBN 
+VBZ VBN VBN 
+VBD 
+IN 
+VBZ 
+IN 
+VBG 
+RB 
+PRP 
+VBD VBN 
+RP 
+VBZ 
+VBD VBN 
+IN 
+VBD 
+VBZ 
+NN 
+VBP VBN VBG 
+VBP NN VBP DT 
+IN 
+PRP CC PRP 
+WP 
+DT 
+IN 
+RP 
+VBZ 
+MD PRP VB VBN . 
+RB 
+VBD 
+VB 
+IN 
+WP 
+IN 
+JJ 
+VBP 
+VB 
+IN 
+VBD 
+VBZ VBN 
+VBP 
+NN 
+VB 
+IN 
+VBZ 
+VBZ RB 
+IN 
+VBD RB 
+PRP 
+VBD VBN 
+IN 
+MD 
+VBD 
+VBZ 
+DT 
+TO 
+VBP 
+VBZ 
+VB 
+IN 
+IN 
+IN 
+VBD 
+VB VBN 
+PRP 
+IN 
+VBP 
+NN 
+WP 
+IN 
+PRP 
+VBD RB 
+NN 
+VBZ VBN 
+VB 
+MD RB 
+VBD 
+IN 
+IN 
+DT JJ DT NN 
+WP$ 
+RP 
+VBD VBN 
+PRP 
+IN 
+VBP 
+RB 
+NN 
+RB 
+VB 
+VBD 
+WP 
+VBZ VBN 
+VBZ 
+VB IN 
+IN 
+VBZ 
+VBZ PRP 
+WP 
+VB 
+RB 
+IN 
+VBD VBN 
+IN 
+MD VB VBN 
+VBN 
+VBG 
+IN 
+VBD 
+VBZ 
+IN 
+NN 
+VBD IN 
+VBP VBN 
+JJR 
+VBZ VBG 
+VBZ 
+VBD 
+RP 
+VBD VBN 
+VBD 
+VBZ 
+VBD VBN VBG 
+VBZ PRP 
+VBD 
+VBD VBN 
+IN 
+VBZ 
+VBZ 
+TO 
+VBD 
+MD 
+VBD 
+VBZ PRP 
+TO 
+IN 
+VBD 
+VBG 
+WP$ 
+IN 
+IN 
+VBN 
+VBZ 
+RB 
+VBP 
+VBP 
+WP$ 
+IN 
+IN 
+PRP 
+VBD VBN 
+NN 
+VBD VBN 
+VBD IN 
+IN 
+VBZ PRP 
+VBZ VBN VBG 
+PRP 
+RB 
+PRP 
+RP 
+VBZ VBN 
+NN 
+TO 
+VBZ 
+RB 
+VBZ PRP 
+DT 
+VB 
+VBG 
+IN 
+WP 
+PRP 
+DT 
+DT 
+DT 
+JJ 
+JJS 
+JJ 
+DT 
+DT 
+JJS 
+DT 
+RBR 
+DT 
+JJR 
+JJ 
+DT 
+JJ 
+JJR 
+JJ 
+DT 
+JJ 
+JJS 
+JJR 
+JJ 
+DT JJ 
+JJ 
+JJS 
+DT NN 
+RB 
+DT JJ 
+RBR 
+DT 
+JJ 
+RBS 
+NN 
+DT JJ 
+RBR JJ 
+DT 
+JJR 
+JJ 
+IN 
+CC 
+IN 
+IN 
+IN 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+PRP 
+WRB 
+MD 
+WP 
+MD 
+WP$ 
+WRB 
+IN 
+IN 
+WP 
+WP 
+WP$ 
+WP 
+WDT 
+WDT 
+WP 
+WRB 
+WDT 
+WP 
+WP 
+WP$ 
+WDT 
+NNS 
+PRP 
+PRP 
+DT JJ 
+WRB 
+PRP 
+PRP$ 
+JJ 
+WRB 
+JJ 
+NN 
+WDT 
+NNS 
+PRP 
+WP 
+DT 
+DT 
+DT 
+: 
+DT 
+DT 
+DT 
+: 
+DT 
+DT 
+VBZ 
+VBD 
+VBN 
+VBZ 
+DT 
+DT 
+WDT 
+VBD 
+VBG 
+VB 
+VBZ 
+IN 
+RP 
+MD 
+JJ 
+VBD RB 
+IN 
+MD VB 
+ 
+MD 
+JJS 
+DT JJ 
+: 
+IN 
+DT 
+WDT 
+DT 
+DT 
+RB 
+RB 
+DT 
+RB 
+VBP 
+VB NN 
+IN 
+VBG 
+IN 
+RBS JJ 
+RBR 
+VBD 
+VBN 
+VBZ 
+RP 
+VB VBN 
+JJR 
+DT 
+DT 
+DT 
+DT 
+DT 
+: 
+: 
+: 
+DT 
+DT 
+DT 
+DT 
+DT 
+DT 
+NN 
+RBS 
+DT 
+DT 
+DT JJ 
+CC 
+RB 
+JJ 
+DT 
+DT 
+JJ 
+DT 
+DT 
+DT 
+DT 
+DT 
+JJ 
+JJR 
+CC 
+JJ 
+DT JJ 
+JJS 
+DT 
+JJ 
+DT 
+DT 
+VBZ RB 
+MD RB 
+VBZ PRP 
+VBD RB 
+VBZ RB 
+VBP PRP 
+VBZ PRP 
+VBP PRP 
+VBZ RB 
+VBD PRP 
+VBZ RB 
+VBP RB 
+VBP 
+VBZ 
+VBZ 
+VBP RB 
+VBP RB 
+VBP RB 
+VBP RB 
+VBP RB 
+MD 
+MD VB VBN 
+MD TO 
+MD 
+MD 
+MD 
+MD 
+NNP 
+VBZ TO VB 
+MD 
+RBR JJ 
+JJ 
+JJS 
+JJS 
+JJR 
+JJ 
+JJR 
+JJS 
+JJ 
+JJR 
+MD 
+VBP TO 
+MD RB 
+MD 
+MD 
+VBD TO 
+MD 
+MD 
+MD RB MD VB 
+VBN 
+MD 
+VBP 
+MD 
+MD 
+MD 
+MD 
+MD 
+VBP 
+MD RB PRP 
+VBD TO 
+NN 
+RB 
+RB 
+RB 
+RB 
+RB 
+NN 
+NNS 
+CD NNS 
+JJ NN 
+RB 
+RB 
+RB 
+NN 
+RB 
+RB RB IN 
+RB 
+RB 
+RB 
+RB 
+RB 
+IN EX 
+WRB PRP VBZ 
+NNS 
+RB 
+RB 
+IN WDT 
+RB 
+RB 
+RB 
+DT 
+DT 
+IN 
+VBN 
+VBD TO 
+MD 
+VBD VBN 
+VBZ 
+VBD 
+DT JJ 
+DT JJ 
+NNS 
+MD 
+VBD VBN 
+VBP 
+VBD 
+VBP 
+PRP$ 
+IN 
+DT 
+VBD 
+VBP 
+WP 
+VBZ 
+IN 
+VBZ 
+IN 
+VBZ 
+VBG 
+IN 
+VBG 
+VBD 
+VBD 
+PRP$ 
+IN 
+IN 
+RP 
+RB 
+VBD 
+VBD VBN 
+VBZ 
+NNS 
+VBD 
+MD VB 
+VBZ 
+IN 
+PRP$ 
+TO 
+RB 
+VBG 
+DT 
+IN 
+IN 
+VBD VBG 
+VBD VBN 
+NN 
+MD 
+VBZ 
+TO VB 
+VBZ 
+VBP 
+RBR 
+TO 
+PRP$ 
+IN 
+IN 
+VBZ 
+PRP 
+PRP$ 
+WP 
+WP 
+RB 
+DT 
+VBP VBN 
+CC 
+VBG 
+WDT 
+NNS 
+FW 
+RBR 
+VBD 
+VBZ 
+DT 
+VB RP 
+NN 
+NN 
+JJ 
+VBZ VBN 
+VBD 
+VBP 
+VBZ 
+DT 
+VBZ VBN VBN 
+MD 
+JJ 
+IN 
+PRP$ 
+PRP 
+VBG 
+JJ 
+VBP VBN VBN IN 
+VBD IN 
+MD PRP RB 
+IN 
+VBZ 
+VBN 
+IN 
+RB 
+IN 
+NN 
+MD VB VBN 
+PRP 
+WDT 
+VBZ 
+VB 
+IN 
+IN NN IN 
+IN 
+VBZ RB VBN VBN 
+VB 
+VBZ VBG 
+VBG 
+VBZ 
+VBZ VBN 
+IN 
+DT 
+VBN 
+VBN 
+VBN 
+VBZ PRP 
+VBD RB VBN PRP$ 
+VBD 
+VBD 
+WP 
+PRP 
+VBD 
+NN 
+VBD 
+VBP 
+VBZ 
+IN 
+VBD 
+VBZ VBN VBG 
+JJ 
+VBG 
+VBD VBN 
+PRP 
+VBZ VBN 
+VBD 
+VBN 
+VBD 
+VBZ 
+IN 
+VBD 
+VBZ 
+VB 
+IN 
+VBD VBN 
+VBD 
+VBP VBN 
+VBP VBN 
+VBD 
+WRB 
+VBD 
+RB IN 
+JJR 
+VBZ 
+VBZ 
+VBD 
+MD VB 
+VBZ 
+VBP 
+WDT 
+WP$ 
+MD 
+MD 
+DT 
+WP 
+WP 
+WP 
+WDT 
+IN 
+CC 
+WRB 
+VB IN 
+DT 
+WRB 
+MD 
+WP$ 
+VBD 
+NN 
+VBP VBG 
+DT NN DT JJ 
+IN 
+VBZ 
+VBZ VBN 
+IN 
+WP 
+VBD RB 
+VBD 
+MD 
+PRP 
+RP 

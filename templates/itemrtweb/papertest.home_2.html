@@ -1,0 +1,159 @@
+{% extends "template.base.html" %}
+
+{% block title %}Paper Test{% endblock %}
+
+{% block content %}
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-tooltip.js"></script> 
+<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-popover.js"></script> 
+
+      <script> 
+    $(function () 
+    { $("#example").popover(); 
+    }); 
+</script>
+
+      <div class="row">
+        <div class="col-md-12 col-lg-10 col-lg-offset-1">
+          <h1>考卷测试</h1>
+            <blockquote>
+             
+              请按照正确格式填写答案！ <br>
+   <small><strong>修改（直接填写修改后的词）</strong>：ago ； <strong>删除</strong>： ago\ ; <strong>添加（前一个词+需要添加的词）</strong>：years+ago ;  <strong>正确</strong>：true</small>
+ 
+
+                    </blockquote>
+
+
+
+		  
+		  <div id="list-question-filter">
+            <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#general-generation" data-toggle="tab">基础设置</a></li>
+                <li{% if tags %} class="active"{% endif %}><a href="#subject-generation" data-toggle="tab">高级设置</a></li>
+            </ul>
+            <div class="tab-content">
+           <div class="tab-pane{% if not tags %} active{% endif %}" id="general-generation">
+            <div class="row">
+            <div class="col-md-12">
+			
+          <form class="form-horizontal" method="post" role="form">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="qn_time" class="col-sm-3 control-label">时间</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="qn_time" name="qn_time" placeholder="10分钟" value="" disabled>
+              </div>
+            </div>
+			<div class="form-group {% if error.num_qn %}has-error{% endif %}">
+              <label for="num_qn" class="col-sm-3 control-label">题目数量</label>
+              <div class="col-sm-6">
+			  <div class="btn-group" data-toggle="buttons">
+			  <label id="num_qn" class="btn btn-default active"><input type="radio" name="num_qn" value="1" checked="checked">1套</label>
+              </div>
+            </div>
+			</div>
+            <div class="form-group">
+              <label for="qn_diff" class="col-sm-3 control-label">平均难度</label>
+              <div class="col-sm-6">
+			  <div class="btn-group" data-toggle="buttons">
+			  <label id="qn_diff" class="btn btn-default"><input type="radio" name="qn_diff" value="1">极易</label>
+			  <label id="qn_diff" class="btn btn-default"><input type="radio" name="qn_diff" value="2">简单</label>
+			  <label id="qn_diff" class="btn btn-default active"><input type="radio" name="qn_diff" value="3" checked="checked">适中</label> 
+			  <label id="qn_diff" class="btn btn-default"><input type="radio" name="qn_diff" value="4">困难</label>
+			  <label id="qn_diff" class="btn btn-default"><input type="radio" name="qn_diff" value="4">极难</label>
+			  </div>
+			  </div>
+            </div>
+			
+			<div class="form-group">
+              <label for="topics" class="col-sm-3 control-label">语法项目</label>
+			  <div class="col-sm-6">
+			  
+			{% for topic in topics %}
+      {% if topic.name ==  '高考真题' %}
+			<div id="topics" class="col-sm-6">
+			<div class="btn-group" data-toggle="buttons">                 
+			<label id="acontent_a" class="btn btn-default active">
+			<input type="checkbox" class="form-control" name="topics" id="topics{{ topic.id }}" value="{{ topic.id }}" checked="checked">{{ topic }}</label>
+			</div>
+			</div>
+      {% endif %}
+			{% endfor %}
+			
+			</div>
+			
+			</div>
+
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3 ">
+                <button type="submit" class="btn btn-primary">开始测试</button>
+              </div>
+            </div>
+          </form>
+		   </div>
+          </div>
+           </div>
+		   
+	
+			   <div class="tab-pane{% if tags %} active{% endif %}" id="subject-generation">
+            <div class="row">
+            <div class="col-md-12">
+
+              <form class="form-horizontal" method="post" role="form">
+            {% csrf_token %}
+            <div class="form-group {% if error.num_qn %}has-error{% endif %}">
+              <label for="num_qn" class="col-sm-3 control-label">题目数量</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="num_qn" name="num_qn" placeholder="Max. 20" value="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="qn_diff" class="col-sm-3 control-label">平均难度</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="qn_diff" name="qn_diff" placeholder="Optional, Range is 1 (Easiest) to 5 (Hardest)" value="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="qn_time" class="col-sm-3 control-label">时间</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="qn_time" name="qn_time" placeholder="1 minute per question" value="" disabled>
+              </div>
+            </div>
+           <div class="form-group">
+           <label class="col-sm-3 control-label">语法项目</label>
+           <label class="col-sm-2 control-label" style="text-align: center;">选择</label>
+           <label class="col-sm-2 control-label" style="text-align: center;">题目</label>
+           <label class="col-sm-2 control-label" style="text-align: center;">难度</label>
+           </div>
+           {% for topic in topics %}
+           {% if topic.name ==  '高考' %}
+           <div class="form-group">
+           <label for="qn_time" class="col-sm-3 control-label">{{ topic }}</label>
+           <div class="col-sm-2">
+                <input type="checkbox" class="form-control" id="topics{{ topic.id }}" name="topics" value="{{ topic.id }}" checked="true">
+           </div>
+           <div class="col-sm-2">
+                <input type="text" class="form-control" id="qns_{{ topic }}" name="qns_{{ topic }}" placeholder="Optional" value="">
+           </div>
+           <div class="col-sm-2">
+                <input type="text" class="form-control" id="diff_{{ topic }}" name="diff_{{ topic }}" placeholder="Optional" value="">
+            </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3 ">
+                <button type="submit" class="btn btn-primary">开始测试</button>
+              </div>
+            </div>
+          </form>
+            </div>
+          </div>
+           </div>
+    </div>
+	</div></div></div>
+	
+{% endblock %}

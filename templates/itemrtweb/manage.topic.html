@@ -1,0 +1,94 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}List Topic{% endblock %}
+
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $(".btn-question-delete").bind("click", function() {
+        if(confirm("Are you sure to delete this topic?")) {
+          /* erm. delete? */
+        }
+        else {
+          return false;
+        }
+      })
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+      <h1>语法项目管理</h1>
+        <div class="row">
+		<div class="col-md-3">
+		<ul style="list-style-type:none">
+				<li class="dropdown">
+              <a href="#" class="btn btn-success form-control"class="dropdown-toggle"  data-toggle="dropdown">插入新的语法项目</a>
+              <ul class="dropdown-menu nav-login">
+                <li class="nav-login-content">
+                  <form action="/control/topic/insert/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="name">项目名称</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Enter new Topic name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                  </form>
+                </li>
+            </li></ul>
+		</div>
+          <div class="col-md-6">
+              {% if request.GET.msg %}
+              <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+              {% endif %}
+		  <div class="panel panel-default">
+
+              
+<table class="table table-striped panel-body">
+              
+<thead>
+
+<th></th>
+<th>语法项目</th>
+<th> </th>
+<th></th>  
+<th> </th>           
+</thead>
+                
+<tbody>                 
+{% for topic in topics %}
+<tr>           
+
+<td>{{topic.position}}</td>                
+<td>{{topic.name}}</td>
+<td>{% if topic.position > 1 %}<a href="/control/topic/up/{{ topic.position }}"><span class="glyphicon glyphicon-upload"></span></a>{% endif %}</td>
+<td>{% if topic.position < count %}<a href="/control/topic/down/{{ topic.position }}"><span class="glyphicon glyphicon-download"></span></a>{% endif %}</td>
+<td><a href="/control/topic/delete/{{ topic.id }}"><span class="glyphicon glyphicon-remove-circle" style="color: #d9534f"></span></a></td>
+</tr>                 
+{% endfor %}              
+</tbody>         
+</table>
+</div>
+
+          </div>
+      </div>
+{% endblock %}

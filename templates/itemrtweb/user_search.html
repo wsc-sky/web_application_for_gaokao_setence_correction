@@ -1,0 +1,119 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title%}Search{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    function isEmpty(){
+    	if(document.forms["ps"]["tags"].value==""){
+            alert("You need to input a question");
+            return false;
+        }
+	var starNum = document.forms["ps"]["tags"].value.split("*").length-1;
+	if(document.forms["ps"]["choiceA"].value != ""){
+		var answerCnt = document.forms["ps"]["choiceA"].value.split("...").length;
+		if(answerCnt !=starNum){
+			alert("Choice A doesn't match the question");
+			return false;
+		}
+	}
+	if(document.forms["ps"]["choiceB"].value != ""){
+		var answerCnt = document.forms["ps"]["choiceB"].value.split("...").length;
+		if(answerCnt !=starNum){
+			alert("Choice B doesn't match the question");
+			return false;
+		}
+	}
+		if(document.forms["ps"]["choiceC"].value != ""){
+		var answerCnt = document.forms["ps"]["choiceC"].value.split("...").length;
+		if(answerCnt !=starNum){
+			alert("Choice C doesn't match the question");
+			return false;
+		}
+	}
+		if(document.forms["ps"]["choiceD"].value != ""){
+		var answerCnt = document.forms["ps"]["choiceD"].value.split("...").length;
+		if(answerCnt !=starNum){
+			alert("Choice D doesn't match the question");
+			return false;
+		}
+	}
+	if(document.forms["ps"]["correctAnswer"].value != ""){
+		var answerCnt = document.forms["ps"]["correctAnswer"].value.split("...").length;
+		if(answerCnt !=starNum){
+			alert("Correct answer doesn't match the question");
+			return false;
+		}
+	}
+	
+	
+	return true;
+        
+        
+    }
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+        <!---
+        if(document.forms["ps"]["choiceA"].value=="" && document.forms["ps"]["choiceB"].value=="" && document.forms["ps"]["choiceC"].value=="" && document.forms["ps"]["choiceD"].value==""){
+            alert("You need to input at least one choices");
+            return false;
+        }--->
+<div class="col-md-12" style="min-height: 100px;">
+	<div id="list-question-filter">
+        <div class="tab-content">
+            <div class=active id="filter-pattern">
+        <div class="row">
+        <div class="col-lg-12">
+          <div>
+            <form name="ps" action="/search/pattern/" onsubmit="return isEmpty();">
+              <div class="form-group row">
+                <div class="col-xs-12">
+                    题目:<br>
+                    <input size="125" type="text" name="tags" style="height:35px;" required><br>
+                    例： It was * honour to have * European diplomat at our Graduation Ceremony
+                    <br>选项:<br>
+                    A1. <input size="20" type="text" name="choiceA" style="height:35px;">
+                    B. <input size="20" type="text" name="choiceB" style="height:35px;" >
+                    C. <input size="20" type="text" name="choiceC" style="height:35px;" >
+                    D. <input size="20" type="text" name="choiceD" style="height:35px;" ><br>
+                    例： a...an
+                    <!--<br>Correct Answer:<br>
+                    <input size="80" type="text" name="correctAnswer" placeholder="an...a" style="height:35px;">
+                 --> <br><br>
+                  <button type="submit" class="btn btn-success form-control" style="height:35px;width:150px">搜索11</button>
+              </div>
+            </form>
+          </div>
+         </div>
+         </div>
+        </div>
+        </div>
+
+</div>
+</div>
+<div class="row">
+<!---<h5>Disclaimer: Contribute to our database <a href="/insert">here</a></h5></div>--->
+</div>
+
+{% endblock %}

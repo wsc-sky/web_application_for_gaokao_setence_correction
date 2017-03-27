@@ -1,0 +1,71 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Analyse{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+        
+<div class="col-lg-12">
+          
+<h1>Analyse Difficulty Level</h1>
+          
+<blockquote>
+            
+<p>View the distribution of questions at a glance.</p>
+            
+<small>Click on the links to look at the questions uunder each category.</small>
+          
+</blockquote>
+
+
+<table class="table table-striped panel-body">
+           
+<thead>
+<th>S/N</th>
+<th>text</th>
+<th>char_count</th>
+<th>word_count</th>
+<th>sentence_count</th>
+<th>syllable_count</th>
+<th>complexwords_count</th>
+<th>grade</th>
+<th>diff</th>
+<th>ht1</th>
+<th>ht2</th>
+<th>ht3</th>
+</thead>
+
+                
+<tbody>
+
+{% for q in selall %}                                  
+<tr>
+<td> {{q.id}}</td>                                     
+<td> {{ text|keyvalue:q.id}}</td>
+<td> {{char_count|keyvalue:q.id}}</td>
+<td> {{word_count|keyvalue:q.id}}</td>
+<td> {{sentence_count|keyvalue:q.id}}</td>
+<td> {{syllable_count|keyvalue:q.id}}</td>
+<td> {{complexwords_count|keyvalue:q.id}}</td>
+<td> {{grade|keyvalue:q.id}}</td>
+<td> {{diff|keyvalue:q.id}}</td>
+<td> {{ht1|keyvalue:q.id}}</td>
+<td> {{ht2|keyvalue:q.id}}</td>
+<td> {{ht3|keyvalue:q.id}}</td>
+
+</tr>                
+{% endfor %} 
+             
+</tbody>
+              
+</table>
+</div></div>
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends "template.base.html" %}
+{% load staticfiles itemrtfilter %}
+
+{% block title %}CAT Test{% endblock %}
+
+
+{% block content %}
+      
+
+<div class="row">
+        <div class="col-lg-12">
+<!--  delete  <small class="pull-right">测试ID: <span id="test_id">{{ test.id }}</span></small> -->
+          <h1>CAT 测试结果 </h1>
+        </div>
+        	<div class="row">
+<div class="col-md-3">
+         <div class="bs-sidebar" data-spy="affix" data-offset-top="75">
+            <ul class="nav bs-sidenav">
+              <li><a>
+                <h4>总分:</h4>
+                <p class="text-center"><span class="h3">{{ correct }}</span><span class="h4">/{{ filtered.count }}</span></p>
+              </li></a>
+              <li id="nav_questions">
+                <a href="#">题目</a>
+                <ul class="nav">
+                  {% for question in filtered %}                  
+                  <li><a href="#question-{{ forloop.counter }}">题目 {{ forloop.counter }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <div>
+                  <a href="/test/cat/" class="btn btn-danger" style="width: 100%;" >退出</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        	<div class="col-md-9">
+
+ <!--         
+            <div id="chartContainer" style="height: 550px; width: 100%;"></div>
+-->         
+
+
+	{% for question in filtered %}
+    <div class="multiquestion-row" >
+		<div id="question-{{ forloop.counter }}" class="anchor"></div>
+		<div class="row" style="background-color: #FAFAFA">
+   
+			<div id="qlabel" class="col-md-1">
+<strong><span style="font-size:28px" >  
+      Q{{ forloop.counter }}:</span> </strong> 
+			</div>
+
+
+			<div class="col-md-9">
+
+      <p>  
+      <span style="font-size:17px" > {{question.question.content|ast}}</span>  ({% autoescape off %}
+                语法项目: {{question.question.topic}}; 
+        难度: 
+        {% if question.question.difficulty == 5 %} 极难
+                {% elif question.question.difficulty == 4 %}困难
+        {% elif question.question.difficulty == 3 %}适中
+                {% elif question.question.difficulty == 2 %}简单
+                {% elif question.question.difficulty == 1 %}极易
+                {% endif %})<br>
+                     {% endautoescape %}</p> 
+      
+
+	
+      
+                      <div id="acontent" >
+                <span style="font-size:14px" > 你的答案:
+
+                </span> {% for response in test.responses.all %}{% if response.question == question.question %}{{ response.response}}{% endif %}{% endfor %}
+<br>
+<span style="font-size:14px" >
+				答案分析 : 
+        </span><b>{{question.question.source}}</b> <br>
+
+
+           
+              </div></div>
+
+
+                      <div class="col-md-1">
+        {% if question.correctness == 1 %}
+        <span class="glyphicon glyphicon-ok" style="color:#00CD00; font-size: 60px; padding-top:30px;"></span>
+        {% else %}
+        <span class="glyphicon glyphicon-remove" style="color:#d9534f;font-size: 60px;padding-top:30px;"></span>
+        {% endif %}
+
+
+        </div>
+<div class="row" style="background-color: #FAFAFA">
+<!--
+              <div id="alabel" class="col-md-1">
+                <h3>A:</h3>
+              </div>
+-->
+              </div>
+<!--
+				<div id="asubmit" class="col-md-2">
+                	<div class="btn {% for response in test.responses.all %}{% if response.question == question.question %}{% if response.correctness > 0.8 %}btn-success{% else %}btn-danger{% endif %}{% endif %}{% endfor %} form-control">{% for response in test.responses.all %}{% if response.question == question.question %}{% if response.correctness > 0.8 %}正确!{% else %}错误!{% endif %}{% endif %}{% endfor %}</div>
+             		</div>
+
+					<a href="/question/view/{{question.question.id}}" class="btn btn-primary" role="button">详细</a>
+            	</div>
+
+
+-->
+<hr style="color: #EEE0E5"></div>
+{% endfor %}    
+</div>
+</div>
+  
+<!--
+{# Code for injecting charts into page #}
+           
+
+  <script type="text/javascript">
+	window.onload = function() {
+		var chart = new CanvasJS.Chart("chartContainer", {
+			title: {
+				text: "CAT 测试结果"
+			},
+			axisX: {
+				interval: 1
+			},
+			data: [{
+				type: "line",
+				dataPoints: [
+				{% for question in filtered %}
+				{ 
+				x:{{forloop.counter}} , 
+				y: {{question.question.difficulty}} , 
+				{% for response in test.responses.all %}
+				{% if response.question == question.question %}
+				{% if response.correctness > 0.8 %} questionmarkerType: "triangle",  markerColor: "#6B8E23"
+				{% else %} markerType: "cross", markerColor: "tomato" 
+				{% endif %}{% endif %}{% endfor %}
+				},
+				{% endfor %}
+				]
+			}]
+		});
+		chart.render();
+	}
+	</script>
+
+-->
+<!-- <script type="text/javascript" src="/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+  <div id="chartContainer" style="height: 300px; width: 100%;">
+  </div>
+</body>
+</html>
+
+        function loadChart(jQuery) {
+          console.log( "ready!" );
+          var test_data = {
+            labels : [{% for ability in ability_list %}{{ forloop.counter }}{% if not forloop.last %},{% endif %}{% endfor %}],
+			[        
+	  {% for question in filtered %}
+      { x: question.difficulty, y: 71, indexLabel: "gain", markerType: "triangle",  markerColor: "#6B8E23", markerSize: 12},
+      {% endfor %}
+	  ]
+            datasets : [
+              {
+                fillColor : "rgba(172,194,132,0.4)",
+                strokeColor : "#ACC26D",
+                pointColor : "#fff",
+                pointStrokeColor : "#9DB86D",
+                data : [{% for ability in ability_list %}{{ ability|floatformat:"0" }}{% if not forloop.last %},{% endif %}{% endfor %}]
+              }
+            ]
+          }
+
+          var cattest_results = document.getElementById('cattest_results').getContext('2d');
+          new Chart(cattest_results).Line(test_data);
+        }
+      </script> -->
+      {% endblock %}

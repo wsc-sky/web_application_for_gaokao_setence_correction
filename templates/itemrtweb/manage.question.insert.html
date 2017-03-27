@@ -1,0 +1,125 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Insert Question{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>创建题目, 请按照格式填写!</h1>
+      {% if saved %}<div class="alert alert-success">该题已成功保存</div>{% endif %}
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors.as_text }}
+      </div>
+      {% endif %}
+      <form class="form-basic" method="post" role="form">
+        {% csrf_token %}
+        <div class="row">
+
+          <div class="col-sm-10">
+<!--		  
+		  <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">题目<font color="red"> *</font></label>
+              <textarea readonly class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" rows="2">{{ form.content.value|default_if_none:'' }}</textarea>
+            </div>
+
+    -->
+                <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">题目<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" rows="2" placeholder="Nearly five years before." style="height:40px;">{{ form.content.value|default_if_none:'' }}</textarea>
+        <small>插入只有一个错误的改错单题， 例 : As I tell you last time, I made three new friend here. </small>
+      </div>
+
+			</div>
+		</div>
+		
+		<div class="row form-group">
+		
+ <br>
+		  
+  <div class="col-sm-10">
+
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">答案<font color="red"> *</font></label>
+
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choiceA.html_name }}" rows="1" placeholder="ago" style="height:40px;">{{ form.choiceA.value|default_if_none:'' }}</textarea>
+
+            <small><strong>修改</strong>直接填写修改后的词汇：ago ； <strong>删除</strong>填写词汇并在后面加\： ago\ ; <strong>添加</strong>填写添加词汇的前一个词+添加的词汇：years+ago  ;  <strong>正确</strong>的句子请填写：true。- </small>
+            </div>
+<br>
+      <div class="form-group">
+              <label for="{{ form.source.id_for_label }}">答案解析<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.source.id_for_label }}" name="{{ form.source.html_name }}" rows="1" placeholder="固定搭配want to do sth想要做某事；to是不能省略的，不定式to do sth作为want的宾语。"
+              rows="1"  style="height:100px;">{{ form.source.value|default_if_none:'' }}</textarea>
+                          <small>题目解析， 例: 固定搭配want to do sth想要做某事；to是不能省略的，不定式to do sth作为want的宾语。 </small>
+            </div>
+      <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">备注</label>
+              <textarea id="{{ form.solution.id_for_label }}" name="{{ form.solution.html_name }}" class="form-control" rows="2" placeholder="可不填">{{ form.solution.value|default_if_none:'' }}</textarea>
+            </div>
+
+
+            </div>
+
+
+
+<!-- change this
+			<div class="col-sm-6">
+          		 <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+              	 	  <label for="{{ form.choiceA.id_for_label }}">(1)</label>
+              		  <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choiceA.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+			<div class="col-sm-6">
+          <div class="form-group{% if form.choiceB.errors %} has-error{% endif %}">
+              <label for="{{ form.choiceB.id_for_label }}">(2)</label>
+              <textarea class="form-control" id="{{ form.choiceB.id_for_label }}" name="{{ form.choiceB.html_name }}" rows="1" >{{ form.choiceB.value|default_if_none:'' }}</textarea>
+            </div></div>
+			<div class="col-sm-6">
+          <div class="form-group{% if form.choiceC.errors %} has-error{% endif %}">
+              <label for="{{ form.choiceC.id_for_label }}">(3)</label>
+              <textarea class="form-control" id="{{ form.choiceC.id_for_label }}" name="{{ form.choiceC.html_name }}" rows="1" >{{ form.choiceC.value|default_if_none:'' }}</textarea>
+            </div></div>
+			<div class="col-sm-6">
+          <div class="form-group{% if form.choiceD.errors %} has-error{% endif %}">
+              <label for="{{ form.choiceD.id_for_label }}">(4)</label>
+              <textarea class="form-control" id="{{ form.choiceD.id_for_label }}" name="{{ form.choiceD.html_name }}" rows="1" >{{ form.choiceD.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+            <div class="form-group{% if form.answer.errors %} has-error{% endif %}">
+              <label for="{{ form.answer.id_for_label }}">正确答案<font color="red"> *</font></label>
+             <select id="{{ form.answer.id_for_label }}" name="{{ form.answer.html_name }}" class="form-control" >
+              <option value="A"{% if "A" == form.answer.value %} selected{% endif %}>(1)</option>
+              <option value="B"{% if "B" == form.answer.value %} selected{% endif %}>(2)</option>
+              <option value="C"{% if "C" == form.answer.value %} selected{% endif %}>(3)</option>
+              <option value="D"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+              </select>
+            </div>
+			<div class="form-group">
+              <label for="{{ form.source.id_for_label }}">来源</label>
+              <textarea class="form-control" id="{{ form.source.id_for_label }}" name="{{ form.source.html_name }}" rows="1" placeholder="Source of question (Optional)">{{ form.source.value|default_if_none:'' }}</textarea>
+            </div>
+			<div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">备注</label>
+              <textarea id="{{ form.solution.id_for_label }}" name="{{ form.solution.html_name }}" class="form-control" rows="2" placeholder="Optional">{{ form.solution.value|default_if_none:'' }}</textarea>
+            </div>
+        </div>
+         </div>
+
+         -->
+        <div class="row form-group" >
+          <div class="col-xs-12">
+            <div class="well">
+              {% if selected_question %}<button type="submit" class="btn btn-primary">Save Changes</button>
+			  {% else %}<button type="submit" class="btn btn-primary">创建</button>{% endif %}
+              <a href="/question/" class="btn btn-danger">退出</a>
+            </div>
+          </div>
+        </div>
+      </form>
+{% endblock %}

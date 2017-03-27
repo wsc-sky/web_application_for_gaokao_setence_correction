@@ -1,0 +1,45 @@
+{% extends "template.base.html" %}
+
+{% block title %}Account Activation{% endblock %}
+
+{% block content %}
+      <div class="row">
+        <div class="col-md-12 col-lg-10 col-lg-offset-1">
+          <h1>账号设置</h1>
+          {% if not form.activation_error %}
+          <div class="alert alert-info">
+            请登录后进入账号设置.
+          </div>
+          {% elif form.activation_error == 'incorrect' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起，您的账号和密码不匹配。
+          </div>
+          {% elif form.activation_error == 'expired' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起, 请的密码已过期. 请 <a href="mailto:clangkts@gmail.com" class="alert-link">联系</a> 管理员.
+          </div>
+          {% endif %}
+          <form class="form-horizontal" method="post" role="form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group {% if error == 'incorrect' %}has-error{% endif %}">
+              <label for="{{ form.username.id_for_label }}" class="col-sm-3 control-label">邮箱</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" placeholder="Your Email " value="{{ form.username.value|default_if_none:'' }}">
+              </div>
+            </div>
+            <div class="form-group {% if error == 'incorrect' %}has-error{% endif %}">
+              <label for="{{ form.password.id_for_label }}" class="col-sm-3 control-label">密码</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" value="{{ form.password.value|default_if_none:'' }}" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3 ">
+                <button type="submit" class="btn btn-primary">登录</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+{% endblock %}

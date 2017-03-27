@@ -1,0 +1,55 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Forum{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>Forum : Start Thread</h1>
+      {% if saved %}<div class="alert alert-success">Question has been successfully saved.</div>{% endif %}
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors.as_text }}
+      </div>
+      {% endif %}
+<form class="form-basic" method="post" role="form">
+        {% csrf_token %}
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <label for="{{ form.topic.id_for_label }}">Topic<font color="red"> *</font></label>
+            <div class="row">
+              <div class="col-xs-12">
+                <select id="{{ form.topic.id_for_label }}" name="{{ form.topic.html_name }}" class="form-control">
+                  {% for topic in form.topics %}
+                  <option value="{{ topic.id }}"{% if topic.id == form.topic.value|add:0 %} selected{% endif %}>{{ topic.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+       </div> 
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">Query<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" rows="10" placeholder="Start thread by inserting query here">{{ form.content.value|default_if_none:'' }}</textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <div class="well">
+              <button type="submit" class="btn btn-primary">Insert Question</button>
+              <a href="#" onclick="history.back(); return false;" class="btn btn-danger">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </form>
+{% endblock %}

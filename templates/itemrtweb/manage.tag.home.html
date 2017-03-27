@@ -1,0 +1,101 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}List Keyword Tags{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $(".btn-question-delete").bind("click", function() {
+        if(confirm("确定删除标签吗?")) {
+          /* erm. delete? */
+        }
+        else {
+          return false;
+        }
+      })
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+      <h1>词汇标签目录</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <p><a href="/control/tag/insert/" class="btn btn-success form-control">插入新的词汇标签</a></p>
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">语法项目</a></li>
+                <li{% if tags %} class="active"{% endif %}><a href="#filter-tags" data-toggle="tab">标签</a></li>
+			</ul>
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/control/tag/topic/{{ topic.id }}/">{{ topic.name }} ({{count|keyvalue:topic.id}}) </a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                  
+                                  
+                <div class="tab-pane{% if tags %} active{% endif %}" id="filter-tags">
+                  <form action="/control/tag/list/">
+                    <ul id="tagssearch">
+                    </ul>
+                    <button type="submit" class="btn btn-primary">过滤</button>
+                  </form>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            {% if request.GET.msg %}
+            <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+            {# Filtering Questions with Tags #}
+            {% elif tags %}
+            <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ questions.count }}</strong> 题目属于标签: {% for tag in tags %}{{ tag }} {% endfor %}</div>
+            {# Filtering Questions with Topic #}
+            {% elif filtered_tags %}
+            <div class="alert alert-success"><strong>{{ filtered_tags.count }}</strong> 词汇标签属于 <strong>{{ selected_topic.name }}</strong></div>
+            {# Nothing filtered #}
+            {% else %}
+            <div class="alert alert-info">从左方选择一个语法项目</div>
+            {% endif %}
+            {% for tag in filtered_tags %}
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="tag-{{ tag.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3> {{ tag.name }}<span class="pull-right">
+<a href="/control/tag/view/{{ tag.id }}" class="btn btn-sm btn-info">查看</a> 
+<a href="/control/tag/edit/{{ tag.id }}" class="btn btn-sm btn-warning">编辑</a>
+<a href="/control/tag/delete/{{ tag.id }}" class="btn btn-sm btn-danger btn-question-delete">删除</a></span></h3>
+              </div>
+              <div class="col-md-12">
+                {% autoescape off %}
+               <b> 标签 ID: {{ tag.id}}</b> (项目 :{{ tag.topic.name}})<br>
+		{{tag.description}}
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+{% endblock %}

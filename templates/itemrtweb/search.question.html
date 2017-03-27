@@ -1,0 +1,143 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Question{% endblock %}
+
+
+
+{% block content %}
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>题目{{question.id}} <small> 项目： {{question.topic.name}}</small></h1>
+        </div>
+      </div>
+      <div id="contentrow" class="row">
+        <div class="col-lg-9">
+          <div class="row">
+            <div id="qlabel" class="col-md-1">
+              <h3>Q:</h3>
+            </div>
+            <div class="col-md-11">
+              {% autoescape off %}
+                <b>{{ question.text|ast }}</b>
+              {% endautoescape %}
+            </div>
+          </div>
+          <br>
+		  <div class="row">
+            <div id="alabel" class="col-md-1">
+              <h3>A:</h3>
+            </div>
+            <div id="acontent" class="col-md-11">
+              <div class="btn-group">
+                <label id="acontent_a" class="btn {% if question.answer.content == 'A' %}btn-success{% elif choice == 'a' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'A' and choice == 'a' %}<strong><span class="glyphicon glyphicon-ok"></span> 正确!</strong><br>{% elif question.answer.content == 'A' %}<strong>正确答案</strong><br>{% elif choice == 'a' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  (1) {{question.choices.a|linebreaksbr}}
+                </label>
+                <label id="acontent_b" class="btn {% if question.answer.content == 'B' %}btn-success{% elif choice == 'b' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'B' and choice == 'b' %}<strong><span class="glyphicon glyphicon-ok"></span> 正确!</strong><br>{% elif question.answer.content == 'B' %}<strong>正确答案</strong><br>{% elif choice == 'b' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  (2) {{question.choices.b|linebreaksbr}}
+                </label>
+                <label id="acontent_c" class="btn {% if question.answer.content == 'C' %}btn-success{% elif choice == 'c' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'C' and choice == 'c' %}<strong><span class="glyphicon glyphicon-ok"></span> 正确!</strong><br>{% elif question.answer.content == 'C' %}<strong>正确答案</strong><br>{% elif choice == 'c' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  (3) {{question.choices.c|linebreaksbr}}
+                </label>
+                <label id="acontent_d" class="btn {% if question.answer.content == 'D' %}btn-success{% elif choice == 'd' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'D' and choice == 'd' %}<strong><span class="glyphicon glyphicon-ok"></span> 正确!</strong><br>{% elif question.answer.content == 'D' %}<strong>正确答案</strong><br>{% elif choice == 'd' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  (4) {{question.choices.d|linebreaksbr}}
+                </label>
+              </div>
+            </div>
+            <input type="hidden" name="qid" value="{{question.id}}">
+          </div>
+          <div class="row">
+           <div id="tcontent" class="col-md-11" style="margin-top: 20px; margin-bottom: 0px">
+			<!--   <div class="panel panel-default">
+                <div class="panel-heading">
+                  Test the output answers here:
+                </div>
+                <form method="post" action="/prototype/test/question/{{ question.id }}/">
+                  {% csrf_token %}
+                  <div class="panel-body">
+                    <div id="acontent" class="col-md-10">
+                      <input type="text" class="form-control form-answer-field" name="answer" placeholder="Test the answer">
+                    </div>
+                    <div id="asubmit" class="col-md-2">
+                      <button type="button" class="btn btn-primary btn-block btn-test-send">Test</button>
+                    </div>
+                  </div>
+                </form>
+              </div>-->
+            </div>
+          </div>
+          <div id="practicecontentend"></div>
+        </div>
+        <div class="col-lg-3 visible-lg">
+          <div id="practicesidebar" class="panel panel-default">
+            <div class="panel-body">
+			  <h5>项目</h5>
+              <span class="label label-info">{{ question.topic }}</span>
+              <h5>难度</h5>
+              {% if question.difficulty == 5 %}
+              <span class="label label-danger"> 极难</span>
+              {% elif question.difficulty == 4 %}
+              <span class="label label-warning">困难</span>
+              {% elif question.difficulty == 3 %}
+              <span class="label label-warning">适中</span>
+              {% elif question.difficulty == 2 %}
+              <span class="label label-success">简单</span>
+              {% elif question.difficulty == 1 %}
+              <span class="label label-success">极易</span>
+              {% endif %}
+              <h5>词汇标签</h5>
+              {% if question.tags.all %}
+              	 {% for tag in question.tags.all %}
+              	 	<span class="label label-default">{{ tag }}</span>
+              	 {% endfor %}
+              {% else %}
+              	 <span class="label label-default">无</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>    
+<div class="col-lg-6 visible-lg">
+	<div id="practicesidebar" class="panel panel-default">
+		<div class="panel-body">
+			<h5>相关 {{question.topic.name}} 题目</h5>
+			{% for q in related %}
+				<a href = "/question/view/{{q.id}}/">{{q.content|ast}} ({{q.choice}})</a><br><br>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="col-lg-6 visible-lg">
+	<div id="practicesidebar" class="panel panel-default">
+		<div class="panel-body">
+			<h5>其他相关题目</h5>
+			{% for q in allrelated %}
+				<a href = "/question/view/{{q.id}}/">{{q.content|ast}} ({{q.choice}})</a><br><br>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+        </div>
+      
+      {% if debug %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Debug Data <small>(Normally hidden from user)</small>
+        </div>
+        <div class="panel-body">
+          <p>Question: {{question.id}}</p>
+          <p>Difficulty (1-5): {{question.difficulty}}</p>
+          <p>Current Ability: {{debug.ability}}</p>
+          <p>Item info: {{question.question_info}}</p>
+        </div>
+      </div>
+      {% endif %}
+      
+      
+{% endblock %}

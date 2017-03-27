@@ -1,0 +1,22 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}About{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+<center>
+
+ <iframe width="735" height="550"
+src="http://www.youtube.com/embed/CHFfDOTY3iI">
+</iframe> 
+
+</center>
+
+{% endblock %}

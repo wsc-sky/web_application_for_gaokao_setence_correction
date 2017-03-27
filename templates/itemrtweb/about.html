@@ -1,0 +1,115 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}About{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="well">
+
+<h1>Hello {{ user.first_name }} ! 
+<small class="pull-right">{{ PROJECT_NAME }}</small></h1>
+        
+
+<p>Our system allows you to revise and practice on english grammar at your own pace. <br>
+<strong>We hope that this will be useful for revision and reinforcing your knowledge.</strong></p>
+        
+
+<!--<p>Take a <strong><a href="/survey/">User Survey</a></strong> now to give your suggestions!</p>
+-->      
+
+</div>
+<div class="row">
+
+         <div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/practice.png' %}" alt="Paper Test">
+            <div class="caption">
+              <h3>1 Learn</h3>
+              <p><strong>Learn</strong> about the various grammar techniques and concepts. They will come in handy when you tackle the questions. Get your do and don't here to get a good start.</p>
+      <br><br><br><br>     <div class="text-right"><a href="/learn/" class="btn btn-primary" role="button">Learn now</a></div>
+            </div>
+         </div>
+        </div>
+  
+
+<div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/labtest.png' %}" alt="Exercises">
+            <div class="caption">
+              <h3>2 Exercises</h3>
+              <p><strong>Exercises</strong> is where you can take your own time to practice MCQ questions of different topics. The questions chosen are <strong>adaptive to your current knowledge level</strong>.</p>
+              
+
+<br><br><br><br><div class="text-right"><a href="/practice/paper" class="btn btn-primary" role="button">Practice now</a></div>
+            </div>
+          </div>
+        </div>
+        
+
+
+<div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/trialtest.png' %}" alt="CAT Test">
+            <div class="caption">
+              <h3>3 Test</h3>
+              <p><strong>CAT Test</strong> stands for Computerized Adaptive Tests. In this mode each question is given <strong>1 minutes</strong>, and your next question will depend on the previous questions' correctness. Otherwise, choose to take a <strong>Paper Test</strong>.<br></p>
+              
+
+<div class="text-right"><a href="/test/cat/" class="btn btn-primary" role="button">CAT Test now</a></div>
+            </div>
+          </div>
+        </div>
+
+
+         <div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/chart.png' %}" alt="Review">
+            <div class="caption">
+              <h3>4 Review</h3>
+              <p><strong>Review</strong> your past attempts and see where you went wrong. This will help you identify your weak areas and topics. </p>
+<br><br><br><br><br><br>     <div class="text-right"><a href="/test/progress/" class="btn btn-primary" role="button">Review now</a></div>
+            </div>
+         </div>
+        </div>
+  
+
+<div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/search.png' %}" alt="Search">
+            <div class="caption">
+              <h3>5 Search</h3>
+              <p><strong>Search</strong> through the database for question you are having difficulty. Adaptive search is useful for identifying questions you wish to query. Else, try Word Search, Pattern Search or Tag Search</p>
+              
+
+<br><div class="text-right"><a href="/home/" class="btn btn-primary" role="button">Search now</a></div>
+            </div>
+          </div>
+        </div>
+
+<div class="col-sm-2">
+          <div class="thumbnail">
+            <img src="{% static '/static/images/loudspeaker.png' %}" alt="Forum">
+            <div class="caption">
+              <h3>6 Forum</h3>
+              <p><strong>Forum</strong> allows you to discuss your questions with your fellow peers. Pluck out the courage to explore and excel. Engage in meaningful discussion here.</p>
+              
+
+<br><br><br><br><div class="text-right"><a href="/practice/paper" class="btn btn-primary" role="button">Discuss now</a></div>
+            </div>
+          </div>
+        </div>
+</div>
+<div class="row">
+<h5>Disclaimer:
+<p><strong>Grammar Express</strong> is a Final Year undergraduate project. This website is a collation of Grammar collated from 2009-2013 PSLE English Prelim papers and Assessment Books and is intended for FREE learning and sharing. It is not sold for profit. If you require any assistance with regards to the materials, please contact <a href="mailto:grammarexpress1@gmail.com?Subject=Grammar%20Express%20Enquiries" target="_top"> adminstrator</a>. </p></h5></div>
+      </div>
+
+{% endblock %}

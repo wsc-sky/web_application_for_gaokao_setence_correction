@@ -1,0 +1,62 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Insert New Tag{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>编辑概念标签</h1>
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors.as_text }}
+      </div>
+      {% endif %}
+      <form class="form-basic" method="post" role="form">
+        {% csrf_token %}
+        <div class="row">
+	<div class="col-sm-2"></div>
+          <div class="col-sm-9">
+
+
+	    <div class="form-group{% if form.topic.errors %} has-error{% endif %}">
+              <label for="{{ form.topic.id_for_label }}">语法项目<font color="red"> *</font></label>
+ 		<select id="{{ form.topic.id_for_label }}" name="{{ form.topic.html_name }}" class="form-control">
+                  {% for topic in form.topics %}
+                  <option value="{{ topic.id }}"{% if topic.id == form.topic.value|add:0 %} selected{% endif %}>{{ topic.name }}</option>
+                  {% endfor %}
+                </select>
+            </div>
+			<div class="form-group{% if form.name.errors %} has-error{% endif %}">
+              <label for="{{ form.name.id_for_label }}">类型</label>
+              <textarea readonly class="form-control" " rows="1" >概念标签</textarea>
+            </div>
+		<div class="form-group{% if form.name.errors %} has-error{% endif %}">
+              <label for="{{ form.name.id_for_label }}">名称<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" rows="1" >{{ form.name.value|default_if_none:'' }}</textarea>
+            </div>
+
+            <div class="form-group{% if form.description.errors %} has-error{% endif %}">
+              <label for="{{ form.description.id_for_label }}">描述<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" rows="10">{{ form.description.value|default_if_none:'' }}</textarea>
+            </div>
+
+
+
+            </div>
+         </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <div class="well">
+              <button type="submit" class="btn btn-primary">保存</button>
+              <a href="#" onclick="history.back(); return false;" class="btn btn-danger">取消</a>
+            </div>
+          </div>
+        </div>
+      </form>
+{% endblock %}

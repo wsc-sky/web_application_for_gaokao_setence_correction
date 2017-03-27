@@ -1,0 +1,59 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Tag Cloud{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="row">
+<div class="col-lg-12">
+<h1>标签云</h1>
+<blockquote>
+<p>标签云是对于词汇标签的视觉化描述。</p>
+<small>学习更多的词汇标签！</small>
+</blockquote>
+</div>
+
+<div class="row">
+<div class="col-md-3">
+<div id="list-question-filter" data-spy="affix" data-offset-top="80">
+<div class="tab-content">
+<div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+<ul class="nav nav-pills nav-stacked">
+{% for topic in topics %}
+<li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/analyse/{{ topic.id }}/">{{ topic.name }}</a></li>
+{% endfor %}
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-9">
+<div class="row-fluid">
+<p style="text-align:center;">
+{% for tag in onecloud %}
+{% if tag.size > 30 %}
+<span style="font-size: {{tag.size}}px"><a style="color:#049cdb;" href="/search/tag/?tags={{tag.tag}}{% if selected_topic %} &topic={{selected_topic.id}} {% endif %}" title="{{tag.tag}}">{{tag.tag}}({{tag.count}})</a></span>
+{% elif tag.size > 20 %}
+<span style="font-size: {{tag.size}}px"><a style="color:#FF0000;" href="/search/tag/?tags={{tag.tag}}{% if selected_topic %} &topic={{selected_topic.id}} {% endif %}" title="{{tag.tag}}">{{tag.tag}}({{tag.count}})</a></span>
+{% elif tag.size > 10 %}
+<span style="font-size: {{tag.size}}px"><a style="color:#04B404;" href="/search/tag/?tags={{tag.tag}}{% if selected_topic %} &topic={{selected_topic.id}} {% endif %}" title="{{tag.tag}}">{{tag.tag}}({{tag.count}})</a></span>
+{% else %}
+<span style="font-size: {{tag.size}}px"><a style="color:#696969;" href="/search/tag/?tags={{tag.tag}}{% if selected_topic %} &topic={{selected_topic.id}} {% endif %}" title="{{tag.tag}}">{{tag.tag}}({{tag.count}})</a></span>
+{% endif %}
+{% endfor %}
+</p>
+</div>
+				
+</div>
+
+
+{% endblock %}

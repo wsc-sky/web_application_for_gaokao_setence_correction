@@ -1,0 +1,108 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Insert/Edit Question{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for item, value in form.tags.field.choices %}'{{ value }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#{{ form.tags.id_for_label }}').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $('.toolbox-btn').on("click", function(){
+        var qn = $('#{{ form.content.id_for_label }}')
+        qn.focus();
+        qn.val(qn.val() + "Sample question text\n\n\\begin{code}\nprintf('sample');\n\\end{code}\n\nA. Answer 1\nB. Answer 2\nC. Answer 3\nD. Answer 4");
+        qn.val = qn.val;
+        qn.scrollTop(999999);
+      });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+      <h1 >{% if selected_question %}题目已成功插入{% else %}Insert Question{% endif %}</h1>
+      {% if saved %}<div class="alert alert-success">Question has been successfully saved.</div>{% endif %}
+      {% if form.errors %}
+      <div class="alert alert-danger">
+      <!--
+        {{ form.errors.as_text }}
+        -->
+      </div>
+      {% endif %}
+      
+       
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">Topic<font color="red"> *</font></label>
+              Topic {{topic.id}} : {{topic}}
+            </div>
+            <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">题目</label>
+              {{content}}
+            </div>
+          	<div class="form-group{% if form.choice.errors %} has-error{% endif %}">
+              <label for="{{ form.choice.id_for_label }}">答案</label>
+              {{choice}}
+            </div>
+   
+			<div class="form-group{% if form.source.errors %} has-error{% endif %}">
+              <label for="{{ form.source.id_for_label }}">答案解析</label>
+              {{source}}
+            </div>
+            <div class="form-group{% if form.source.errors %} has-error{% endif %}">
+              <label for="{{ form.source.id_for_label }}">Parser <font color="red"> *</font></label>
+              {{key}} ({{parse}}) 
+            </div>
+            <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">备注</label>
+              {{solution}}
+            </div>
+
+			</div>
+			<div class="col-sm-3">
+            <div class="form-group">
+              <label for="{ form.tags.id_for_label }}">Tags <font color="red"> *</font></label>
+              <ul id="{{ form.tags.id_for_label }}" class="tagsinput">
+		
+                {% for tag in tags %}<li>{{ tag }}</li>{% endfor %} 
+              </ul>
+          </div>
+            <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">Difficulty <font color="red"> *</font></label>
+              {{difficulty}} 
+            </div>
+            <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">Time</label>
+              0
+            </div>
+            <div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">Marks</label>
+              1.0
+            </div>
+Note: <font color="red"> *Regenerated</font>       
+		</div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <div class="well">
+              <button onclick="location.href='/question/insert/'" class="btn btn-primary">继续插入单题</button>
+              <a href="/question/"  class="btn btn-danger">退出</a>
+            </div>
+          </div>
+        </div>
+{% endblock %}

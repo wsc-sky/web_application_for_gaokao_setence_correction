@@ -1,0 +1,225 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Insert Question{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>创建题目</h1>
+      {% if saved %}<div class="alert alert-success">该题已成功保存</div>{% endif %}
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {{ form.errors.as_text }}
+      </div>
+      {% endif %}
+      <form class="form-basic" method="post" role="form">
+        {% csrf_token %}
+        <div class="row">
+	<div class="col-sm-1"></div>
+          <div class="col-sm-10">
+		  
+                <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+              <label for="{{ form.content.id_for_label }}">题目<font color="red"> *</font></label>
+              <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" rows="2" placeholder="Nearly five years before." style="height:60px;">{{ form.content.value|default_if_none:'' }}</textarea>
+        <small>插入只有一个错误的改错单题， 例 : As I tell you last time, I made three new friend here. </small>
+      </div>
+
+
+			</div>
+		</div>
+		
+		<div class="row form-group">
+		 <div class="col-sm-1"></div>
+          <div class="col-sm-10">
+		  
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <br><br><label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(1)</label>
+
+            </div></div>
+			<div class="col-sm-3">
+                  <b>答案<font color="red" > *</font></b><br><br>
+          		 <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+              		  <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice1.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+                  <b>解析<font color="red"> *</font></b><br><br>
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source1.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+            
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(2)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice2.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source2.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(3)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice3.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source3.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(4)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice4.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source4.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(5)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice5.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source5.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(6)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice6.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source6.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(7)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice7.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source7.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(8)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice8.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source8.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(9)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice9.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source9.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+      <div class="col-sm-1">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <label style="font-size:18px;" for="{{ form.choiceA.id_for_label }}">(10)</label>
+
+            </div></div>
+      <div class="col-sm-3">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.choice10.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+      <div class="col-sm-8">
+               <div class="form-group{% if form.choiceA.errors %} has-error{% endif %}">
+                    <textarea class="form-control" id="{{ form.choiceA.id_for_label }}" name="{{ form.source10.html_name }}" rows="1" >{{ form.choiceA.value|default_if_none:'' }}</textarea>
+            </div></div>
+
+
+
+
+
+<!--
+            <div class="form-group{% if form.answer.errors %} has-error{% endif %}">
+             <select id="{{ form.answer.id_for_label }}" name="{{ form.answer.html_name }}" class="form-control" >
+              <option value="A"{% if "A" == form.answer.value %} selected{% endif %}>(1)</option>
+              <option value="B"{% if "B" == form.answer.value %} selected{% endif %}>(2)</option>
+              <option value="C"{% if "C" == form.answer.value %} selected{% endif %}>(3)</option>
+              <option value="D"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+              <option value="E"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+              <option value="F"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+              <option value="G"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+              <option value="H"{% if "D" == form.answer.value %} selected{% endif %}>(4)</option>
+
+              </select>
+            </div>
+
+
+			<div class="form-group">
+              <label for="{{ form.source.id_for_label }}">来源</label>
+              <textarea class="form-control" id="{{ form.source.id_for_label }}" name="{{ form.source.html_name }}" rows="1" placeholder="Source of question (Optional)">{{ form.source.value|default_if_none:'' }}</textarea>
+            </div>
+            -->
+			<div class="form-group{% if form.solution.errors %} has-error{% endif %}">
+              <label for="{{ form.solution.id_for_label }}">备注</label>
+              <textarea id="{{ form.solution.id_for_label }}" name="{{ form.solution.html_name }}" class="form-control" rows="2" placeholder="Optional">{{ form.solution.value|default_if_none:'' }}</textarea>
+            </div>
+        </div>
+         </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <div class="well">
+              {% if selected_question %}<button type="submit" class="btn btn-primary">Save Changes</button>
+			  {% else %}<button type="submit" class="btn btn-primary">创建</button>{% endif %}
+              <a href="#" onclick="history.back(); return false;" class="btn btn-danger">取消</a>
+            </div>
+          </div>
+        </div>
+      </form>
+{% endblock %}

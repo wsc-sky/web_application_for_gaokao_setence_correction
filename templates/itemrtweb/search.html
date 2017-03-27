@@ -1,0 +1,121 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Home{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="thumbnail">
+<img src="{% static '/static/images/home.png' %}" alt="Home">
+</div>
+
+<div class="col-md-12" style="min-height: 100px;">
+	<div id="list-question-filter">
+		<ul class="nav nav-tabs">
+			<li{% if not tags %} class="active"{% endif %}><a href="#filter-search" data-toggle="tab">Adaptive Search</a></li>
+			<li{% if tags %} class="active"{% endif %}><a href="#filter-tags" data-toggle="tab">Tag Search</a></li>
+            		<li{% if tags %} class="active"{% endif %}><a href="#filter-word" data-toggle="tab">Word Search</a></li>
+			<li{% if tags %} class="active"{% endif %}><a href="#filter-pattern" data-toggle="tab">Pattern Search</a></li>
+		</ul>
+		<div class="tab-content">
+	    <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-search">
+        <div class="row">
+        <div class="col-lg-12">
+          <div>
+            <form method="get" action="/search/">
+              <div class="form-group row">
+                <div class="col-xs-10">
+                  <input size="112" type="text" name="tags" placeholder="  Adaptive Search" style="height:35px;">
+                </div>
+                <div class="col-xs-2">
+                  <button type="submit" class="btn btn-success form-control">Adaptive Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+         </div>
+         </div>
+        </div>
+	    <div class="tab-pane{% if tags %} active{% endif %}" id="filter-tags">
+        <div class="row">
+        <div class="col-lg-12">
+          <div>
+            <form action="/search/tag/">
+              <div class="form-group row">
+                <div class="col-xs-10">
+                  <ul id="tagssearch"></ul>
+                </div>
+                <div class="col-xs-2">
+                  <button type="submit" class="btn btn-success form-control">Tag Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+         </div>
+         </div>
+        </div>
+        <div class="tab-pane{% if tags %} active{% endif %}" id="filter-word">
+        <div class="row">
+        <div class="col-lg-12">
+          <div>
+            <form method="get" action="/search/word/">
+              <div class="form-group row">
+                <div class="col-xs-10">
+                  <input size="112" type="text" name="tags" placeholder="  Word Search" style="height:35px;">
+                </div>
+                <div class="col-xs-2">
+                  <button type="submit" class="btn btn-success form-control">Word Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+         </div>
+         </div>
+        </div>
+<div class="tab-pane{% if tags %} active{% endif %}" id="filter-pattern">
+        <div class="row">
+        <div class="col-lg-12">
+          <div>
+            <form action="/search/pattern/">
+              <div class="form-group row">
+                <div class="col-xs-10">
+                  <input size="112" type="text" name="tags" placeholder="  Pattern Search" style="height:35px;">
+                </div>
+                <div class="col-xs-2">
+                  <button type="submit" class="btn btn-success form-control">Pattern Search</button>
+                </div>
+              </div>
+            </form>
+          </div>
+         </div>
+         </div>
+        </div>
+</div>
+</div>
+<!--<div class="row">
+<h5>Disclaimer: Contribute to our database <a href="/insert">here</a></h5></div>
+</div>-->
+
+{% endblock %}

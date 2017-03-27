@@ -1,0 +1,178 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}  
+
+{% block title %}主页{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+ 
+
+    <style type="text/css">  
+ .carousel-caption p {
+  margin: 0 0 5px;
+  font-size: 16px;
+  line-height: 1.1;
+}
+ .carousel-caption h4 {
+  font-size: 32px;
+  font-weight: normal;
+  margin-bottom: 25px;
+} 
+ .carousel-caption  {
+  margin: left; 
+  top: 100px; 
+  bottom: 0;
+  height: 200px;
+  width:260px; 
+  left: 100px;
+  position: absolute;
+} 
+.carousel-caption a {
+  padding: 8px 30px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  margin-top: 50px;
+  display: inline-block;
+  color: inherit;
+
+}
+
+.carousel-control {
+  background: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border: none;
+  width: 20px;
+  height: 66px;
+  opacity: 1;
+  top: 50%;
+  margin-top: -33px;
+}
+
+.carousel-control.left {
+  left: -40px;
+  background-image: url({% static 'images/left.png' %});
+}
+.carousel-control.right {
+  right: -40px;
+  background-image: url({% static 'images/right.png' %});
+}
+
+</style>
+<div class="page-header" style=" height: 400px; margin-top:0px;">
+<!--
+<div class="well"  style=" height: 300px">
+
+<h1>您好 {{ user.first_name }} ! 
+<small class="pull-right">{{ PROJECT_NAME }}</small></h1>
+        
+
+<p>我们的系统帮助您按照自己的节奏学习和训练英语语法。<br>
+<strong>我们希望通过这个系统的学习，帮助您加强和巩固语法知识。</strong></p>
+        
+</div>
+-->
+<!--<p>Take a <strong><a href="/survey/">User Survey</a></strong> now to give your suggestions!</p>
+-->      
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel1" >
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img src="{% static 'images/slide1.png' %}" alt="First slide" >
+          <div class="container"  >
+            <div class="carousel-caption "  >
+              <h3 style="font-size:40px">您好:  {{ user.first_name }} ! </h3>
+              <hr >
+             <p style="font-size:19px">我们将帮助您按照自己的节奏</p><p style="font-size:19px">学习和训练语法改错。
+</p>
+              <p><a class="b1" href="#C2" role="button">开始练习</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{% static 'images/slide2.png' %}" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption" >
+              <h3 style="font-size:34px">什么是短句改错?</h3>
+                <hr >
+
+              <p style="font-size:19px">我们将在短时间帮助您</p><p style="font-size:19px">了解短句改错题</p>
+              <p><a class="b2" href="#" role="button">点击了解</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{% static 'images/slide3.png' %}" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3 style="font-size:35px">在手机上学习</h3>
+                    <hr >
+              <p style="font-size:19px">我们的手机应用将帮助您</p><p style="font-size:19px">更好的学习短句改错</p>
+              <p><a class="b3" href="#" role="button">下载APP</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="sr-only">Next</span>
+      </a>
+
+
+    </div><!-- /.carousel -->
+
+
+
+</div>
+
+<br><br><br>
+<hr id="C2">
+    <div   class="thumbnail1" style="height:500px; text-align: center;">
+   <div class="row" >
+   <a href="/test/cat/">
+        <div class="col-lg-4" style="text-align: center; top: 100px; ">
+          <img  src="{% static 'images/practice.png' %}" width="200" height="140" >
+          <h3 style=" top:30px;" >单题练习</h3><br>
+          <p >选择不同的语法类型</p><p>快速开始改错练习</p><p>每做一题都有收获</p>
+        </div><!-- /.col-lg-4 --></a>
+   <a href="/test/paper/">
+        <div class="col-lg-4" style="text-align: center; center; top: 69px; ">
+          <img  src="{% static 'images/trialtest.png' %}" width="126" height="170" >
+          <h3 href="/test/paper/">模拟测试</h3><br>
+          <p style=" ">自定义测试套题</p><p>选择测试的难度</p><p>选择相应的语法类型</p>
+        </div><!-- /.col-lg-4 --></a>
+  <a href="/test/paper_2/">
+        <div class="col-lg-4" style="text-align: center; center; top: 69px; ">
+          <img  src="{% static 'images/labtest.png' %}" width="126" height="170" >
+
+          <h3 href="/test/paper_2/">真题测试</h3><br>
+          <p style=" ">精选历年高考真题</p><p>按照高考要求测试</p><p>测试后总结出题规律</p>
+        </div><!-- /.col-lg-4 --></a>
+      </div><!-- /.row -->
+</div>
+
+
+    <footer  style="  padding: 40px 0;color: #999;text-align: center;background-color: #f9f9f9;border-top: 1px solid #e5e5e5; margin-bottom: 0;">
+    <p class="text-center" style="margin-bottom: 0;">Version2.0 © 2017 Design by <a target="_blank" href="mailto:446713518@qq.com?Subject=hello%20WEISICONG">Arrow</a>.</p>
+
+    </footer>
+
+
+{% endblock %}

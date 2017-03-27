@@ -1,0 +1,54 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}List Learn{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>Learn Materials</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <!--- <p><a href="/control/tag/insert/" class="btn btn-success form-control">Insert New</a></p> --->
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">Topic</a></li> </ul>
+
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_learn topic %} class="active"{% endifequal %}><a href="/control/learn/topic/{{ topic.id }}/">{{ topic.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                                 
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            {% for question in questions %}
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3> {{ question.name }}<span class="pull-right">
+
+<a href="/control/learn/edit/{{ question.id }}" class="btn btn-sm btn-warning">Edit</a> 
+<!--- <a href="/control/tag/delete/{{ question.id }}" class="btn btn-sm btn-danger btn-question-delete">Delete</a></span></h3> --->
+              </div>
+              <div class="col-md-12">
+                {% autoescape off %}
+               <b> Topic: {{ question.id}}</b> ({{ question.topic.name}})<br>
+		<i>{{question.description}}</i>
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+{% endblock %}

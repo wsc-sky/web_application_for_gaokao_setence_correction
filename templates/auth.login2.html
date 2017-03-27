@@ -1,0 +1,106 @@
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>  {% block title %}{% endblock %} | </title> 
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}?20140217" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}?20140217">
+    <link rel="stylesheet" href="{% static 'css/itemrtweb.css' %}?20140217">
+    {% block extrastyle %}
+    {% endblock %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{% static 'js/html5shiv.js' %}"></script>
+      <script src="{% static 'js/respond.min.js' %}"></script>
+    <![endif]-->
+
+    {% block extrahead %}
+    {% endblock %}
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+
+
+    <style type="text/css">  
+    .navbar .nav > li .dropdown-menu {  
+        margin: 0;  
+
+    }  
+    .navbar .nav > li:hover .dropdown-menu {  
+        display: block;  
+      }
+  .navbar {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+    }  
+</style> 
+  </head>
+
+        <div class="col-lg-10 col-lg-offset-1">
+          <h1>登录</h1>
+          {% if not error %}
+          <div class="alert alert-info">
+            <strong>欢迎!</strong> 请用您的ＮＴＵ邮箱登录， <a href="/accounts/register/">现在注册</a>。
+          </div>
+          {% elif error == 'disabled' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起，　该账号不可用. 请 <a href="mailto:clangkts@gmail.com" class="alert-link">联系</a> 管理员，
+          </div>
+          {% elif error == 'inactive' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起，您还没有激活，请激活。
+          </div>
+          {% elif error == 'incorrect' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起，　您的用户名和密码不匹配。
+          </div>
+          {% elif error == 'permission' %}
+          <div class="alert alert-danger">
+            <strong>错误!</strong> 对不起，　您没有登录的权限，请用管理员账号登录。
+          </div>
+          {% endif %}
+          <form class="form-horizontal" method="post" role="form">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="username" class="col-sm-3 control-label">邮箱</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-3 control-label">密码</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" name="password" value="" id="password" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-6">
+                <!--<div class="checkbox">
+                  <label>
+                    <input type="checkbox"> Remember me
+                  </label>
+                </div>-->
+                <a href="/accounts/forgot/">忘记密码?</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-6">
+                <button type="submit" class="btn btn-primary">登录</button>
+              </div>
+            </div>
+            <input type="hidden" name="next" value="{{ next|escape }}" />
+          </form>
+        </div>
+        <br>
+      </div>
+{% endblock %}

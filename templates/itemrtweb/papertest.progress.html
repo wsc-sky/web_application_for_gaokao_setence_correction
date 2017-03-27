@@ -1,0 +1,140 @@
+<meta charset='utf-8'>
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}测试报告{% endblock %}
+
+{% block content %}
+      <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>历史测试记录</h1>
+          <blockquote>
+            <p>查看你的历史测试记录。 </p>
+            <small>有针对性的训练，提高英语语法水平!!</small>
+          </blockquote>
+
+
+<p><b>试卷测试历史记录 </b>
+<small class="pull-right"><a href="/test/paper" class="btn btn-primary btn-sm" role="button">开始试卷测试</a></small></p><br>
+
+<div class="panel panel-default">            
+<table class="table table-striped panel-body">
+                
+<thead>
+<th>序号</th>
+<th>ID</th>
+<th>日期</th>
+<th>语法项目</th>
+<th>分数</th>  
+<th>百分比</th>        
+</thead>
+                
+<tbody>                
+{% for test in tests %}
+<tr>
+<td>{{ forloop.counter }}</td>
+<td> {% if qlist|keyvalue:test.id > 0 %}<a href="/test/paper/submit/{{test.id}}">{{test.id}}</a>{% else%} {{test.id}}{% endif %} </td>
+<td>{{test.generated|date:'Y-m-d H:i'}}</td>
+<td>{{wlist|keyvalue:test.id }}</td>
+<td>{{ tlist|keyvalue:test.id }} / {{ qlist|keyvalue:test.id }}</td>
+<td>{{ plist|keyvalue:test.id }} % </td> 
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<p><b> 语法项目各个击破 </b></p>
+<div class="panel panel-default">
+<table class="table table-striped panel-body">
+                
+<thead>
+<th>语法项目</th>
+<th>试卷测试分数</th>
+<th>百分比</th>
+<th>状态</th>            
+</thead>
+                
+<tbody>                  
+{% for topic in topics %}                  
+<tr>                   
+<td>{{ topic.name }}</td>
+<td> {{correct|keyvalue:topic.id}} / {{total|keyvalue:topic.id}}</td>      
+<td> {{topic_ability|keyvalue:topic}} </td>
+<td>
+<div class="progress">
+                    {% if topic_ability|keyvalue:topic == None %}
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>
+                    <div style="text-align: center; font-size: 12px;">立即测试获取分数</div>
+                    {% elif topic_ability|keyvalue:topic <= 40 %}
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%; min-width: 40%;">
+                      <span>一般! </span>
+                    </div>
+                    {% elif topic_ability|keyvalue:topic <= 60 %}
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 60%;">
+                      <span>良好! </span>
+                    </div>
+                    {% elif topic_ability|keyvalue:topic <= 80 %}
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 80%;">
+                      <span>熟练! </span>
+                    </div>
+                    {% else %}
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 100%;">
+                      <span>精通! </span>
+                    </div>
+                    {% endif %}
+                  </div>
+</td>
+</tr>
+                  
+
+{% endfor %}
+
+<tr>                  
+<td><b>总结</b></td>
+<td><b> {{correct|keyvalue:"all"}} / {{total|keyvalue:"all"}}</b></td>      
+                    
+<td><b> {{topic_ability|keyvalue:"all"}} </b></td>
+
+<td>
+{% if topic_ability|keyvalue:"all" == None %}
+{% elif topic_ability|keyvalue:"all" <= 20 %}
+<img src="{% static '/static/images/star.png' %}" height="40" >
+{% elif topic_ability|keyvalue:"all" <= 40 %}
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+{% elif topic_ability|keyvalue:"all" <= 60 %}
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+{% elif topic_ability|keyvalue:"all" <= 80 %}
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+{% else %}
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+<img src="{% static '/static/images/star.png' %}" height="40" >
+{% endif %}
+
+</td>
+
+</tr>
+                
+</tbody>
+              
+</table>
+ {% for topic in topics %}
+
+{% endfor %}
+
+
+           
+</div>
+
+{% endblock %}

@@ -1,0 +1,203 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>  {% block title %}{% endblock %} | </title> 
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}?20140217" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}?20140217">
+    <link rel="stylesheet" href="{% static 'css/itemrtweb.css' %}?20140217">
+    {% block extrastyle %}
+    {% endblock %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{% static 'js/html5shiv.js' %}"></script>
+      <script src="{% static 'js/respond.min.js' %}"></script>
+    <![endif]-->
+
+    {% block extrahead %}
+    {% endblock %}
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+
+
+    <style type="text/css">  
+    .navbar .nav > li .dropdown-menu {  
+        margin: 0;  
+
+    }  
+    .navbar .nav > li:hover .dropdown-menu {  
+        display: block;  
+      }
+  .navbar {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+    }  
+</style> 
+  </head>
+  <body>
+    <div id="mainnavbar" class="navbar navbar-default navbar-fixed-top" role="navigation"  style="  background-color: #428bca;
+">
+      <div class="container">
+        <div class="navbar-header" >
+
+          <a class="navbar-brand" href="/" style="font-size:21px;">英语语法速递<div style="color: #428BCA; font-size: 13px;">短句改错学习和测试系统</div><div style="color: #428BCA; font-size: 14px; display: none;">Adaptive Educational System</div></a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li style="font-size:17px;"><a href="/home/"><span class="glyphicon glyphicon-home"></span> 主页</a></li>
+            {% if not user.is_authenticated %}
+            <li style="font-size:17px;"><a href="#about">关于</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;"><span class="glyphicon glyphicon-pencil"></span>练习</a>
+              <ul class="dropdown-menu">
+			   <li><a href="/test/cat/">练习</a></li>
+			   <li><a href="/test/paper/">随机测试</a></li>
+         <li><a href="/test/paper_2/">真题测试</a></li>
+
+			   </ul></li>
+			   <li class="dropdown">
+			   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;"><span class="glyphicon glyphicon-check"></span>记录</a>
+              <ul class="dropdown-menu">
+                <li><a href="/test/cat/history/">练习记录</a></li>
+                <li><a href="/test/paper/proficiency">测试记录</a></li>
+				</ul>
+            </li>
+			<li><a href="/leaderboard/" style="font-size:17px;"><span class="glyphicon glyphicon-tower"></span> 排行榜</a></li>
+			   <li><a href="/topic" style="font-size:17px;"><span class="glyphicon glyphicon-stats"></span> 项目水平</a></li>
+			                     
+              
+
+
+
+
+	    <!---<li><a href="/learn/"><span class="glyphicon glyphicon-book"></span> Learn</a></li>
+	    
+	    
+			<li><a href="/leaderboard/"><span class="glyphicon glyphicon-tower"></span> Leaderboard</a></li>
+	    <li><a href="/forum/"><span class="glyphicon glyphicon-bullhorn"></span> Forum</a></li>
+<li><a href="/test/paper/history">History</a></li>	    
+	    <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span> Search</a>
+              <ul class="dropdown-menu">
+			  <li><a href="/search/adaptive">Adaptive Search</a></li>   
+                <li><a href="/search/tag/">Tag Search</a></li>
+                <li><a href="/search/pattern/">Pattern Search</a></li>
+				<li><a href="/search/word/">Word Search</a></li>
+				<li><a href="/practice/paper/">Practice</a></li>
+			   <li><a href="/practice/history">History</a></li>                       
+              </ul>
+            </li>
+	    <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-stats"></span> Analyse</a>
+              <ul class="dropdown-menu">
+		<li><a href="/analyse/">Tag Cloud</a></li>   
+                <li><a href="/analyse/diff/">Difficulty Level</a></li> 
+		<li><a href="/analyse/topic/">Topic</a></li>                         
+              </ul>
+            </li>
+ 		<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span> About</a>
+              <ul class="dropdown-menu">
+		<li><a href="/about/">About</a></li>   
+<li><a href="/survey/">Survey</a></li>
+		<li><a href="/about/video/">Video</a></li>               
+              </ul>
+            </li>--->
+	    <!---<li><a href="/about/"><span class="glyphicon glyphicon-list"></span> About</a></li>
+            <li><a href="/search/"><span class="glyphicon glyphicon-search"></span> Tag Search</a></li>
+            <li><a href="/survey/"><span class="glyphicon glyphicon-bullhorn"></span> User Survey</a></li>
+<li><a href="/search/pattern/"><span class="glyphicon glyphicon-search"></span> Search</a></li>---> 
+            {% endif %}
+            
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="/search/"><span class="glyphicon glyphicon-search"></span> 搜索</a></li>     
+
+            {% if user.is_authenticated %}
+            {## Show user name and profile ##}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">账户</a>
+              <ul class="dropdown-menu">
+                <!--<li><a href="#">Change Password</a></li>
+                <li class="divider"></li>-->
+
+                <li><a href="/accounts/logout/">退出</a></li>
+              </ul>
+            </li>
+
+            {% else %}
+            {## Show register and sign in menus ##}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">登录</a>
+              <ul class="dropdown-menu nav-login">
+                <li class="nav-login-content">
+                  <form action="/accounts/login/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="loginInputEmail">邮箱地址</label>
+                      <input type="text" class="form-control" id="loginInputEmail" name="username" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                      <label for="loginInputPassword">密码</label>
+                      <input type="password" class="form-control" id="loginInputPassword" name="password" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">登录</button>
+                  </form>
+                </li>
+                <li class="divider"></li>
+                <li class="nav-login-content">新用户? <span><a href="/accounts/register/">注册</a></span></li>
+            </li>
+            {% endif %}
+			{% if user.is_staff %}
+            <li><a href="/control/"><span class="glyphicon glyphicon-wrench"></span> 控制</a></li>
+            {% endif %}
+            {% if user.is_superuser %}
+            <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span></a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container">
+      {% block content %}
+      <div class="jumbotron">
+        <h1>您好!</h1>
+        <h2>欢迎来到 {{ PROJECT_NAME }}</h2>
+        <br>
+        <p>一个包含了必要英语语法知识的网络学习环境。 <br>一个准考生的英语学习系统。 </p>
+        <p><a class="btn btn-success btn-lg" role="button" href="/accounts/login/">马上学习</a></p>
+      </div>
+<center>
+
+ <iframe width="735" height="550"
+src="http://www.youtube.com/embed/CHFfDOTY3iI">
+</iframe> 
+
+</center>
+      {% endblock %}
+    </div><!-- /.container -->
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.plugin.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/chart.min.js' %}"></script>
+    <script src="{% static 'js/run_prettify.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/itemrtweb.js' %}"></script>
+	<script src="{% static 'js/canvasjs.min.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,99 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Search{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+      <h1>搜索</h1>
+          <!--<div class = "row">
+              <form action="/search/pattern/">
+              <div class="form-group row">
+                <div class="col-md-10">
+                  <input size="112" type="text" name="tags" placeholder="  Pattern Search" style="height:35px;">
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn btn-success form-control">Pattern Search</button>
+                </div>
+              </div>
+            </form>
+          </div>-->
+         
+<div class="row">
+	<div class="col-md-3" style="min-height: 800px;">
+        <ul class="nav nav-pills nav-stacked">
+<li {% if not selected_topic %} class="active"{% endif%}><a href="?tags={{tags}}&choiceA={{choiceA}}&choiceB={{choiceB}}&choiceC={{choiceC}}&choiceD={{choiceD}}">总和 ({{count}})</a></li>
+                {% for topic in topics %} {% if topic_count|keyvalue:topic > 0 %}
+                <li {% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="?tags={{tags}}&topic={{topic.id}}&choiceA={{choiceA}}&choiceB={{choiceB}}&choiceC={{choiceC}}&choiceD={{choiceD}}">{{ topic.name }} ({{topic_count|keyvalue:topic}})</a></li> {% endif %}
+                {% endfor %}
+              </ul>
+              </div>
+
+ 	<div class="col-md-9">
+              {% if request.GET.msg %}
+              <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+              {# Filtering Questions with Tags #}
+              {% elif tags %}
+              <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ questions.paginator.count }}</strong> 道相关题目: {{ tags }} ({%for choice in choices%}{{choice}} {%endfor%})</div>
+              {# Nothing filtered #}
+              {% else %}
+              <div class="alert alert-info">请输入搜索内容</div>
+              {% endif %}
+
+            {% for question in questions %}
+            <div class="row" style="padding-bottom: 20px;">
+                <div id="question-{{ question.id }}" class="anchor"></div>
+                <div id="qlabel" class="col-md-12">   
+		<h3>项目: {{question.topic.name}}
+        </h3>
+                </div> 
+        <div class="col-md-12">
+               <div id="qdata" class="col-md-12" style="padding-bottom: 10px;">
+                    {% for tag in question.concept.all %}<a href="/search/tag/?tags={{ tag.name }}" class="label label-danger">{{ tag.name }}</a> {% endfor %}
+                    {% if question.difficulty == 5 %}
+                    <span class="label label-warning">难度： 极难</span>
+                    {% elif question.difficulty == 4 %}
+                    <span class="label label-warning">难度： 困难</span>
+                    {% elif question.difficulty == 3 %}
+                    <span class="label label-warning">难度： 适中</span>
+                    {% elif question.difficulty == 2 %}
+                    <span class="label label-warning">难度： 简单</span>
+                    {% elif question.difficulty == 1 %}
+                    <span class="label label-warning">难度： 极易</span>
+                    {% endif %}
+                     {% for tag in question.tags.all %}<a href="/search/tag/?tags={{ tag.name }}" class="label label-info">{{ tag.name }}</a> {% endfor %}
+              </div>
+                {% autoescape off %}
+              <br>
+               <a href="/question/view/{{question.id}}/">{{ question.content|ast|highlight:tags}} </a> <br>
+               {{question.choice|abcd}}
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+    <div>
+                <ul class="pager">
+                  {% if questions.paginator.count > 0 %}
+                  <li><a href="#">Page {{ questions.number }} of {{ questions.paginator.num_pages }}</a></li>
+                  {% endif %}
+                  {% if questions.has_previous %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ questions.previous_page_number }}">&laquo;</a></li>
+                  {% endif %}
+                  {% for page in questions.paginator.page_range %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ page }}">{{ page }}</a></li>
+                  {% endfor %}
+                  {% if questions.has_next %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ questions.next_page_number }}">&raquo;</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+ 			</div>
+            </div>
+          </div>
+{% endblock %}

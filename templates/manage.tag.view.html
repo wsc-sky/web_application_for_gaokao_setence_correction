@@ -1,0 +1,65 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}View Tags{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+      <h1>View Tag</h1>
+<right><a href="/control/tag/topic/{{tag.topic.id}}" class="btn btn-danger">Back</a></right>
+
+
+<div class="row">
+<div class="col-md-1"></div>
+          <div class="col-md-10">
+		<div class="alert {% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ count }}</strong> questions with topic <b> {{tag.topic.name}} </b> and tag <b> {{ tag.name }} </b> 
+                {% autoescape off %}
+		<h3>{{tag.name}}</h3>
+               <b> Tag ID: {{ tag.id}}</b> (Topic :{{ tag.topic.name}})<br>
+		<i>{{tag.description}}</i>
+                {% endautoescape %} </div>
+		
+		
+		{% for question in questions %}
+		<div class="row" style="padding-bottom: 20px;">
+                <div id="question-{{ question.id }}" class="anchor"></div>
+                <div id="qlabel" class="col-md-12">   
+		<h3>Topic: {{question.question.topic.name}}
+		(<a href="/prototype/preview/question/{{question.question.id}}/">Question {{ question.question.id }}</a>)</h3>
+                </div> 
+                <div id="qdata" class="col-md-12" style="padding-bottom: 10px;">
+                    {% for tag in question.question.concept.all %}<a href="/search/tag/?tags={{ tag.name }}" class="label label-danger">{{ tag.name }}</a> {% endfor %}
+                    <span class="label label-danger">{{concept}}</span>
+                  {% if question.question.difficulty == 5 %}
+                  <span class="label label-warning">Difficulty: Very Difficult</span>
+                  {% elif question.question.difficulty == 4 %}
+                  <span class="label label-warning">Difficulty: Difficult</span>
+                  {% elif question.question.difficulty == 3 %}
+                  <span class="label label-warning">Difficulty: Average</span>
+                  {% elif question.question.difficulty == 2 %}
+                  <span class="label label-warning">Difficulty: Easy</span>
+                  {% elif question.question.difficulty == 1 %}
+                  <span class="label label-warning">Difficulty: Very Easy</span>
+                  {% endif %}
+                  {% for tag in question.question.tags.all %}<a href="/search/tag/?tags={{ tag.name }}" class="label label-info">Tag: {{ tag.name }}</a> {% endfor %}
+                </div>
+                <div class="col-md-12" {% if not user.is_staff %} style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default;"{% endif %}>
+ 		{% autoescape off %}
+		
+               <b> {{ question.question.source}}</b> <br>
+               {{ question.question.content|ast}} <br>
+               {{question.question.choice|abcd}}
+		
+                {% endautoescape %}
+                </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+{% endblock %}

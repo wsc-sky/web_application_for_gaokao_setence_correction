@@ -1,0 +1,132 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Forum{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+      <h1>Forum</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <p><a href="/forum/insert/" class="btn btn-success form-control">Insert New Query</a></p>
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">Topic</a></li>
+			</ul>
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/forum/{{ topic.id }}/">{{ topic.name }} ({{topic_count|keyvalue:topic}})</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3>Viewing Thread {{ selected_thread.id }} under <a href="/forum/{{selected_topic.id}}">{{selected_topic}}</a></h3>
+              </div>
+
+              <div class="col-md-12">
+
+               <h4> {% if selected_thread.view < 2 %} View: {% else %} Views: {% endif %}{{ selected_thread.view}} 
+		{% if selected_thread.reply < 2 %} Reply: {% else %} Replies: {% endif %} {{selected_thread.reply}}</h4> <br>
+
+		{% if selected_thread.reply == 0 %} 
+		<div class="alert alert-info">This thread has no reply yet. Post a reply now.</div>
+		{% endif %}
+<table class="table table-striped panel-body">
+                
+<thead>
+                  
+
+                  
+<th>Content</th>
+                  
+<th>Posted on</th>
+                  
+<th>Posted by</th>
+
+
+<th></th>           
+</thead>
+
+                
+<tbody>
+
+<tr>
+<td><b>{{selected_thread.content}}</b></td>
+<td>{{selected_thread.datetime}}</td>
+<td>{{selected_thread.user.get_full_name}}</td>
+
+</tr>
+{% for post in selected_post %}                                  
+<tr>
+                   
+
+                    
+<td> {{ post.content}} </a></td>
+
+<td>{{ post.datetime }}</td>
+
+<td> {{post.user.get_full_name}} </td>
+
+</tr>
+                  
+ {% endfor %}               
+</tbody>
+              
+</table>
+
+
+              </div>
+            </div>
+
+<form class="form-basic" method="post" role="form">
+            
+{% csrf_token %}
+            
+{{ form.non_field_errors }}
+            
+<div class="form-group {% if form.content.errors %}has-error{% endif %}">
+              
+<label for="{{ form.content.id_for_label }}" class="control-label">Reply to Thread</label>
+  <br>            
+<div>
+                
+<textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.html_name }}" placeholder="Type your reply here" rows="2">{{ form.content.value|default_if_none:''}}</textarea>
+              
+</div>
+            
+</div>
+            
+<div class="form-group">
+              
+
+<div class="pull-right">
+  
+<button type="submit" class="btn btn-primary">Post Reply</button>              
+<!---<button id="feedback_btn" type="button" class="btn btn-primary" data-saving-text="Posting...">Post Reply</button>--->
+              
+</div>
+            
+
+</div>
+          
+</form>
+ 
+	</div>
+         
+      </div>
+{% endblock %} 

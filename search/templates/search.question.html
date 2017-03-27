@@ -1,0 +1,167 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Question{% endblock %}
+
+{% block scripts %}
+
+var elements = document.getElementsByClassName('text-to-speech');
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('click', function () {
+        if (window.speechSynthesis !== undefined) {
+            var text = this.nextElementSibling.textContent;
+            var utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+    }, false);
+}
+
+{% endblock %}
+
+
+{% block content %}
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>Question {{question.id}} <small> on {{question.topic.name}}</small></h1>
+        </div>
+      </div>
+      <div id="contentrow" class="row">
+        <div class="col-lg-8">
+        
+        <div class="row">	
+            <div id="qlabel" class="col-md-2">
+              <br><h3><span class="glyphicon glyphicon-info-sign" title="Source"></span> :</h3>
+            </div>
+            <div class="col-md-10">
+             <h5>
+              <br>{{question.source}}
+              {% if question.difficulty == 5 %}
+              <span> <a href="/analyse/diff/{{question.id}}" class="label label-danger"> Very Difficult</a></span>
+              {% elif question.difficulty == 4 %}
+              <span> <a href="/analyse/diff/{{question.id}}" class="label label-warning">Difficult</a></span>
+              {% elif question.difficulty == 3 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-warning">Average</a></span>
+              {% elif question.difficulty == 2 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-success">Easy</a></span>
+              {% elif question.difficulty == 1 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-success">Very Easy</a></span>
+              {% endif %}</h5>
+            <h5>Tags
+              {% if question.tags.all %}
+              {% for tag in question.tags.all %}
+              <span ><a href="/search/tag/?tags={{ tag.name }}" class="label label-info" >{{ tag }}</a></span>
+              {% endfor %}
+              {% else %}
+              <span class="label label-default">No tags yet</span>
+              {% endif %}
+			</h5>
+            </div>
+          </div> <br><br>
+
+          <div class="row">
+            <div id="qlabel" class="col-md-2">
+              <h3>Q:</h3>
+            </div>
+            <div class="col-md-10"{% if not user.is_staff %} style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default;"{% endif %}>
+              {% autoescape off %}
+              {{question.text|ast}}
+              {% endautoescape %}
+            </div>
+          </div> <br><br>
+          
+          <div class="row">
+            <div id="alabel" class="col-md-2">
+              <h3>A:</h3>
+            </div>
+            <div id="acontent" class="col-md-10">
+              <div class="btn-group">
+                <label id="acontent_a" class="btn {% if question.answer.content == 'A' %}btn-success{% elif choice == 'a' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'A' and choice == 'a' %}<strong><span class="glyphicon glyphicon-ok"></span> Correct!</strong><br>{% elif question.answer.content == 'A' %}<strong>Correct Answer</strong><br>{% elif choice == 'a' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  {{question.choices.a|linebreaksbr}}
+                </label>
+                <label id="acontent_b" class="btn {% if question.answer.content == 'B' %}btn-success{% elif choice == 'b' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'B' and choice == 'b' %}<strong><span class="glyphicon glyphicon-ok"></span> Correct!</strong><br>{% elif question.answer.content == 'B' %}<strong>Correct Answer</strong><br>{% elif choice == 'b' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  {{question.choices.b|linebreaksbr}}
+                </label>
+                <label id="acontent_c" class="btn {% if question.answer.content == 'C' %}btn-success{% elif choice == 'c' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'C' and choice == 'c' %}<strong><span class="glyphicon glyphicon-ok"></span> Correct!</strong><br>{% elif question.answer.content == 'C' %}<strong>Correct Answer</strong><br>{% elif choice == 'c' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  {{question.choices.c|linebreaksbr}}
+                </label>
+                <label id="acontent_d" class="btn {% if question.answer.content == 'D' %}btn-success{% elif choice == 'd' %}btn-danger{% else %}btn-default{% endif %} disabled">
+                  {% if question.answer.content == 'D' and choice == 'd' %}<strong><span class="glyphicon glyphicon-ok"></span> Correct!</strong><br>{% elif question.answer.content == 'D' %}<strong>Correct Answer</strong><br>{% elif choice == 'd' %}<strong><span class="glyphicon glyphicon-remove"></span> Wrong!</strong><br>{% else %}<br>{% endif %}
+                  {{question.choices.d|linebreaksbr}}
+                </label>
+              </div>
+            </div>
+            </div> <br><br>
+          
+          <div id="solrow" class="row">
+            <div id="sollabel" class="col-md-2">
+              <h3><span class="glyphicon glyphicon-book" title="Explanation/Solution"></span> :</h3>
+            </div>
+            <div id="solcontent" class="col-md-10">
+              {% if question.solution %}
+              {{question.solution.content|linebreaksbr}}
+  </div>
+              {% else %}
+<div>
+    <img src="http://www.edgarcayce.org/Meditation/images/speaker_icon.gif" class="text-to-speech" alt="Click this image to read the text" />
+    <p>
+              <p>An explanation to the answer of this question is not available yet.</p>
+              <p>But you can <a href="#discussrow">join the discussion</a> to clarify your doubts!</p>
+</p>
+              {% endif %}
+            </div>
+          </div> <br><br>
+          
+          <div id="discussrow" class="row">
+            <div id="discusslabel" class="col-md-2">
+              <h3><span class="glyphicon glyphicon-comment" title="Discussion"></span> :</h3>
+            </div>
+            <div id="discusscontent" class="col-md-10">
+              {% with question as object %}{% include "comments.html" %}{% endwith %}
+            </div>
+          </div> <br><br>
+      
+            <input type="hidden" name="qid" value="{{question.id}}">
+          </div>
+          
+          <div id="practicecontentend"></div>
+
+        
+<div class="col-lg-4 visible-lg">
+	<div id="practicesidebar" class="panel panel-default">
+		<div class="panel-body">
+			<h5>Related {{question.topic.name}} Questions</h5>
+			{% for q in related %}
+				<a href = "/search/question/{{q.id}}/">{{q.content}} ({{q.choice}})</a><br><br>
+			{% endfor %}
+
+			<h5>Other Related Questions</h5>
+			{% for q in allrelated %}
+				<a href = "/search/question/{{q.id}}/">{{q.content}} ({{q.choice}})</a><br><br>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+        </div>
+      
+      {% if debug %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Debug Data <small>(Normally hidden from user)</small>
+        </div>
+        <div class="panel-body">
+          <p>Question: {{question.id}}</p>
+          <p>Difficulty (1-5): {{question.difficulty}}</p>
+          <p>Current Ability: {{debug.ability}}</p>
+          <p>Item info: {{question.question_info}}</p>
+        </div>
+      </div>
+      {% endif %}
+      
+      
+{% endblock %}

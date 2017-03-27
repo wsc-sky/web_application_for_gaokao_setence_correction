@@ -1,0 +1,88 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}List Tags{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $(".btn-question-delete").bind("click", function() {
+        if(confirm("Are you sure to delete this tag?")) {
+          /* erm. delete? */
+        }
+        else {
+          return false;
+        }
+      })
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+      <h1>List Tags</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <p><a href="/control/tag/insert/" class="btn btn-success form-control">Insert New Tag</a></p>
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">Topic</a></li>
+                <li{% if tags %} class="active"{% endif %}><a href="#filter-tags" data-toggle="tab">Tags</a></li>
+			</ul>
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/control/tag/topic/{{ topic.id }}/">{{ topic.name }} ({{count|keyvalue:topic.id}})</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                  
+                                  
+                <div class="tab-pane{% if tags %} active{% endif %}" id="filter-tags">
+                  <form action="/control/tag/list/">
+                    <ul id="tagssearch">
+                    </ul>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                  </form>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+	<div class="alert alert-success"><strong>1</strong> tag in <strong>{{ filtered_tag.topic.name }} </strong></div>
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3> {{ filtered_tag.name }} ({{filtered_tag.count}} questions)<span class="pull-right">
+<a href="/control/tag/view/{{ filtered_tag.id }}" class="btn btn-sm btn-info">View</a> 
+<!---<a href="/prototype/edit/question/{{ filtered_tag.id }}" class="btn btn-sm btn-warning">Edit</a> --->
+<a href="/control/tag/delete/{{ filtered_tag.id }}" class="btn btn-sm btn-danger btn-question-delete">Delete</a></span></h3>
+              </div>
+              <div class="col-md-12">
+                {% autoescape off %}
+               <b> Tag ID: {{ filtered_tag.id}}</b> (Topic :{{ filtered_tag.topic.name}})<br>
+		<i>{{filtered_tag.description}}</i>
+                {% endautoescape %}
+              </div>
+            </div>
+          </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "template.base.html" %}
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Concepts{% endblock %}
+
+{% block content %}
+
+ <div class="row">
+        <div class="col-lg-12">
+          <h1>Concepts <small> on {{selected_topic.name}}</small></h1>
+             <div class="row row-thumbnail"> </div>
+         </div>
+       </div>
+      <div>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+          
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+           <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/concept/{{ topic.id }}/">{{ topic.name }}{% if learn_progress|keyvalue:topic > 0 %} <span class="glyphicon glyphicon-ok"></span>{% endif %}</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+            
+            </div>
+          </div>
+           </div>
+
+ 		   <div class="col-md-9">
+		   <div class="text-right"><a href="/test/cat" class="btn btn-primary btn-sm" role="button">Practice Now</a></div><br>
+		    {% block control-content %}
+            {% for tag in concept %}
+		   		
+            <div class="panel panel-default">
+              <div class="panel-heading">
+			  <h3>{{tag.name}}</h3>
+            <b> Tag ID: {{ tag.id}}</b> <i> (Topic :{{ tag.topic.name}})</i><br>
+			  </div>
+              <div class="panel-body">    
+					  
+			{{ tag.description|linebreaks }}<br>
+			
+                </div>
+              </div>
+           
+ 
+                
+				{% endfor %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+{% endblock %}
+

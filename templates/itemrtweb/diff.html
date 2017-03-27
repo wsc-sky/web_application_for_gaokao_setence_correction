@@ -1,0 +1,120 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Difficulty {% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="well">
+Question Selected: {{qid}} 
+<a href="/prototype/edit/question/{{ qid }}" class="btn btn-sm btn-warning">Edit</a> <br>
+<b>Q:</b> {{content}}<br>
+<b>A:</b> {{ans}}<br>
+{{text}}<br><br>
+
+{{sentence_count}} {% if sentence_count = 1 %} sentence {% else %} sentences {% endif %}<br>
+{{word_count}} {% if word_count = 1 %} word {% else %} words {% endif %}<br>
+
+Avg = {{word_count}} / {{sentence_count}} = {{avg}} words per sentence <br><br>
+
+<!---Characters: <br>
+= {{cdict}}<br>
+= {{char_count}} characters<br><br>--->
+Syllables: <br>
+= {{qdict}} <br>
+＝{{syllable_count}} syllables<br><br>
+
+Flesch Kincaid Grade Level<br>
+= ( 0.39 * avg ) +  11.8 * (syllable_count  / word_count ) - 15.59 <br>
+= ( 0.39 * {{avg}} ) + 11.8 * ( {{syllable_count}} / {{word_count}} ) - 15.59 <br>
+= {{score}}<br>
+= {{grade}}<br><br> 
+
+Parser <br>
+Parse Tree 1: {{result1}} <br>
+Parse Tree 2: {{result2}} <br>
+Parse Tree 3: {{result3}} <br>
+Tree Height: {{ht1}}/{{ht2}}/{{ht3}} <br><br>
+
+Result <br>
+= {{grade}} + {{ht1}} + {{ht2}} + {{ht3}} <br>
+= {{gradet}} <br><br>
+
+<table style="width:300px">
+<tr>
+  <td>Grade Range</td>
+  <td>Difficulty Level</td>		
+</tr>
+<tr>
+{% if diff == 1 %}
+  <td><b><= 14</b></td>
+  <td><b>1</b></td>
+{% else %}
+  <td><= 14</td>
+  <td>1</td>
+{% endif %}		
+</tr>
+<tr>
+{% if diff == 2 %}
+  <td><b>14 - 16</b></td>
+  <td><b>2</b></td>
+{% else %}
+  <td>14 - 16</td>
+  <td>2</td>
+{% endif %}		
+</tr>
+<tr>
+{% if diff == 3 %}
+  <td><b>16 - 18</b></td>
+  <td><b>3</b></td>
+{% else %}
+  <td>16 - 18</td>
+  <td>3</td>
+{% endif %}		
+</tr>
+<tr>
+{% if diff == 4 %}
+  <td><b>18 - 20</b></td>
+  <td><b>4</b></td>
+{% else %}
+  <td>18 - 20</td>
+  <td>4</td>
+{% endif %}		
+</tr>
+<tr>
+{% if diff == 5 %}
+  <td><b>>20</b></td>
+  <td><b>5</b></td>	
+{% else %}
+  <td>>20</td>
+  <td>5</td>
+{% endif %}		
+</tr>
+</table>
+
+<br>Difficulty Level: {{diff}}　
+{% if item.difficulty == 5 %}
+<span class="label label-danger">Very Difficult</span>
+{% elif item.difficulty == 4 %}
+<span class="label label-warning">Difficult</span>
+{% elif item.difficulty == 3 %}
+<span class="label label-warning">Average</span>
+{% elif item.difficulty == 2 %}
+<span class="label label-success">Easy</span>
+{% elif item.difficulty == 1 %}
+<span class="label label-success">Very Easy</span>
+{% endif %}
+<br><br>
+
+</div>
+
+<a href="#" onclick="history.back(); return false;" class="btn btn-danger">Back</a>
+{% endblock %}

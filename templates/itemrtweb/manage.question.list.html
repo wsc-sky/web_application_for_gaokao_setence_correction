@@ -1,0 +1,138 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}List Questions{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $(".btn-question-delete").bind("click", function() {
+        if(confirm("Are you sure to delete this question?")) {
+          /* erm. delete? */
+        }
+        else {
+          return false;
+        }
+      })
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+      <h1>题目目录</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <p><a href="/question/insert/" class="btn btn-success form-control">插入单题</a></p>
+              <p><a href="/question/insert2/" class="btn btn-success form-control">插入套题</a></p>
+
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">题目类型</a></li>
+                <li{% if tags %} class="active"{% endif %}><a href="#filter-tags" data-toggle="tab">标签</a></li>
+              <li{% if tags %} class="active"{% endif %}><a href="#filter-diff" data-toggle="tab">难度</a></li>
+			</ul>
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/question/list/topic/{{ topic.id }}/">{{ topic.name }} ({{count|keyvalue:topic}})</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                  
+                  <div class="tab-pane{% if tags %} active{% endif %}" id="filter-diff">
+                  <div class="panel panel-default panel-filter">
+                    <div class="panel-body">
+                      <h5>难度</h5>
+                      <a href="{{ request.path }}?difficulty=1" class="label{% if request.GET.difficulty == '1' %} label-success {% else %} label-white{% endif %}">极易</a><br>
+                      <a href="{{ request.path }}?difficulty=2" class="label{% if request.GET.difficulty == '2' %} label-success {% else %} label-white{% endif %}">简单</a><br>
+                      <a href="{{ request.path }}?difficulty=3" class="label{% if request.GET.difficulty == '3' %} label-success {% else %} label-white{% endif %}">适中</a><br>
+                      <a href="{{ request.path }}?difficulty=4" class="label{% if request.GET.difficulty == '4' %} label-success {% else %} label-white{% endif %}">困难</a><br>
+                      <a href="{{ request.path }}?difficulty=5" class="label{% if request.GET.difficulty == '5' %} label-success {% else %} label-white{% endif %}">极难</a><br>
+                    </div>
+                  </div>
+                  </div>
+                
+                <div class="tab-pane{% if tags %} active{% endif %}" id="filter-tags">
+                  <form action="/question/list/tags/">
+                    <ul id="tagssearch">
+                    </ul>
+                    <button type="submit" class="btn btn-primary">过滤</button>
+                  </form>
+		{% for tag in filtered_tags %}
+                   <a href="/question/list/tags/?tags={{ tag.name }}" class="label label-info">标签: {{ tag.name }}</a> {% endfor %}
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            {% if request.GET.msg %}
+            <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+            {# Filtering Questions with Tags #}
+            {% elif tags %}
+            <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ questions.count }}</strong> questions with tag: {% for tag in tags %}{{ tag }} {% endfor %}</div>
+            {# Filtering Questions with Difficulty (and topic) #}
+            {% elif questions and request.GET.difficulty %}
+            <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ questions.count }}</strong> 题属于 <strong>{{ selected_topic.name }}</strong>难度： <strong>{% if request.GET.difficulty == '1' %}极易{% elif request.GET.difficulty == '2' %}简单{% elif request.GET.difficulty == '3' %}适中{% elif request.GET.difficulty == '4' %}困难{% elif request.GET.difficulty == '5' %}极难{% else %}{{ request.GET.difficulty }}{% endif %}</strong></div>
+            {# Filtering Questions with Topic #}
+            {% elif questions %}
+            <div class="alert alert-success"><strong>{{ questions.count }}</strong> 题属于 <strong>{{ selected_topic.name }}</strong></div>
+            {# Nothing filtered #}
+            {% else %}
+            <div class="alert alert-info">从左方选择一个语法项目</div>
+            {% endif %}
+            {% for question in questions %}
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+                <h3>题目 {{ question.id }}
+				<span class="pull-right">
+				<a href="/question/view/{{ question.id }}" class="btn btn-sm btn-info">预览</a> 
+				<a href="/question/edit/{{ question.id }}" class="btn btn-sm btn-warning">编辑</a> 
+				<a href="/question/delete/{{ question.id }}" class="btn btn-sm btn-danger btn-question-delete">删除</a>
+				</span>
+				</h3>
+              </div>
+              <div id="qdata" class="col-md-12" style="padding-bottom: 10px;">
+                {% if question.difficulty == 5 %}
+                <span class="label label-danger">难度: 极难</span>
+                {% elif question.difficulty == 4 %}
+                <span class="label label-warning">难度: 困难</span>
+                {% elif question.difficulty == 3 %}
+                <span class="label label-warning">难度： 适中</span>
+                {% elif question.difficulty == 2 %}
+                <span class="label label-success">难度： 简单</span>
+                {% elif question.difficulty == 1 %}
+                <span class="label label-success">难度： 极易</span>
+                {% endif %}
+                {% for tag in question.tags.all %}<a href="/question/list/tags/?tags={{ tag.name }}" class="label label-info">标签: {{ tag.name }}</a> {% endfor %}
+              </div>
+              <div class="col-md-12">
+                {% autoescape off %}
+               <b>{{ question.text|ast}}</b> <br>
+			   {{question.choice|abcd}}
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+{% endblock %}

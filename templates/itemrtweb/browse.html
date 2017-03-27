@@ -1,0 +1,166 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Browse Questions{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script src="{% static 'js/tag-it.js' %}"></script>
+    <script type="text/javascript">
+    var retrievedTags = [{% for tag in all_tags %}'{{ tag.name }}'{% if not forloop.last %},{% endif %}{% endfor %}];
+
+    $(document).ready(function() {
+      $('#tagssearch').tagit({
+        availableTags: retrievedTags,
+        allowSpaces: true,
+        autocomplete: {delay: 0}
+      });
+
+      $(".btn-question-delete").bind("click", function() {
+        if(confirm("Are you sure to delete this question?")) {
+          /* erm. delete? */
+        }
+        else {
+          return false;
+        }
+      })
+    });
+
+	function toggle(qid, button_id) {
+		var ele_name = "sol_" + qid;
+		var ele = document.getElementById(ele_name);
+		var text = document.getElementById(button_id);
+		if(ele.style.display == "block") {
+			ele.style.display = "none";
+			text.value = "View Solution";
+		}
+		else {
+			ele.style.display = "block";
+			text.value = "Hide Solution";
+		}
+	} 
+</script>
+{% endblock %}
+
+{% block content %}
+  <h1>Browse Questions</h1>
+    <div class="row">
+      <div class="col-md-3" style="min-height: 800px;">
+        <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+          <p><a href="/insert/" class="btn btn-success form-control">Insert New Question</a></p>
+          <ul class="nav nav-tabs">
+            <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">Topic</a></li>
+            <li{% if tags %} class="active"{% endif %}><a href="#filter-diff" data-toggle="tab">Difficulty</a></li>
+		</ul>
+          <div class="tab-content">
+            <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+              <ul class="nav nav-pills nav-stacked">
+                {% for topic in topics %}
+                <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/browse/diff/{{ topic.id }}/">{{ topic.name }} ({{topic_count|keyvalue:topic}})</a></li>
+                {% endfor %}
+              </ul>
+              </div>
+              
+              <div class="tab-pane{% if tags %} active{% endif %}" id="filter-diff">
+              <div class="panel panel-default panel-filter">
+                <div class="panel-body">
+                  <h5>Difficulty</h5>
+                  <a href="{{ request.path }}?difficulty=1" class="label{% if request.GET.difficulty == '1' %} label-success {% else %} label-white{% endif %}">Very Easy</a><br>
+                  <a href="{{ request.path }}?difficulty=2" class="label{% if request.GET.difficulty == '2' %} label-success {% else %} label-white{% endif %}">Easy</a><br>
+                  <a href="{{ request.path }}?difficulty=3" class="label{% if request.GET.difficulty == '3' %} label-success {% else %} label-white{% endif %}">Average</a><br>
+                  <a href="{{ request.path }}?difficulty=4" class="label{% if request.GET.difficulty == '4' %} label-success {% else %} label-white{% endif %}">Difficult</a><br>
+                  <a href="{{ request.path }}?difficulty=5" class="label{% if request.GET.difficulty == '5' %} label-success {% else %} label-white{% endif %}">Very Difficult</a><br>
+                </div>
+              </div>
+              </div>
+            
+            <div class="tab-pane{% if tags %} active{% endif %}" id="filter-tags">
+              <form action="/prototype2/list/tags/">
+                <ul id="tagssearch">
+                </ul>
+                <button type="submit" class="btn btn-primary">Filter</button>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        {% if request.GET.msg %}
+        <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+        {# Filtering Questions with Tags #}
+        {% elif tags %}
+        <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ filtered_questions.count }}</strong> questions with tag: {% for tag in tags %}{{ tag }} {% endfor %}</div>
+        {# Filtering Questions with Difficulty (and topic) #}
+        {% elif questions and request.GET.difficulty %}
+        <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ filtered_questions.count }}</strong> questions in <strong>{{ selected_topic.name }}</strong> with difficulty of <strong>{% if request.GET.difficulty == '1' %}Very Easy{% elif request.GET.difficulty == '2' %}Easy{% elif request.GET.difficulty == '3' %}Average{% elif request.GET.difficulty == '4' %}Difficult{% elif request.GET.difficulty == '5' %}Very Difficult{% else %}{{ request.GET.difficulty }}{% endif %}</strong></div>
+        {# Filtering Questions with Topic #}
+        {% elif questions %}
+        <div class="alert alert-success"><strong>{{ filtered_questions.count }}</strong> questions in <strong>{{ selected_topic.name }}</strong></div>
+        {# Nothing filtered #}
+        {% else %}
+        <div class="alert alert-info">Select a topic on the left to list questions</div>
+        {% endif %}
+        {% for question in questions %}
+        <div class="row" style="padding-bottom: 20px;">
+          <div id="question-{{ question.id }}" class="anchor"></div>
+          <div id="qlabel" class="col-md-12">
+            <h3><a href="/browse/question/{{question.id}}">Question {{ question.id }}</a></h3>
+          </div>
+          <div class="col-md-12">
+          
+           <div id="qdata" class="col-md-12" style="padding-bottom: 10px;">
+              {% if question.difficulty == 5 %}
+              <span> <a href="/analyse/diff/{{question.id}}" class="label label-danger"> Very Difficult</a></span>
+              {% elif question.difficulty == 4 %}
+              <span> <a href="/analyse/diff/{{question.id}}" class="label label-warning">Difficult</a></span>
+              {% elif question.difficulty == 3 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-warning">Average</a></span>
+              {% elif question.difficulty == 2 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-success">Easy</a></span>
+              {% elif question.difficulty == 1 %}
+              <span> <a href="/analyse/diff/{{question.id}}"  class="label label-success">Very Easy</a></span>
+            {% endif %}
+	{% for tag in question.tags.all %}<a href="/search/tag/?tags={{ tag.name }}" class="label label-info">Tag: {{ tag.name }}</a> {% endfor %}
+          </div>
+            {% autoescape off %}
+           <b> {{ question.source}}</b> <br>
+           <b>Q:</b> {{ question.content|ast}} <br>
+           {{question.choice|abcd}}
+            {% endautoescape %}
+            <br>
+            <br>
+
+<input type="button" id="toggleans" name="toggleans" class="btn btn-inverse" onclick="toggle({{question.id}}, this.id);"  value="View Solution">
+<br>
+<div class="row-fluid" id="sol_{{question.id}}" style="display:none;">
+Answer : {{question.std_answer}}</div>
+</div>
+</div>
+        {% endfor %}
+         <div>
+            <ul class="pager">
+              {% if questions.paginator.count > 0 %}
+              <li><a href="#">Page {{ questions.number }} of {{ questions.paginator.num_pages }}</a></li>
+              {% endif %}
+              {% if questions.has_previous %}
+              <li><a href="{{ request.path|add:querystring }}&page={{ questions.previous_page_number }}">&laquo;</a></li>
+              {% endif %}
+              {% for page in questions.paginator.page_range %}
+              <li><a href="{{ request.path|add:querystring }}&page={{ page }}">{{ page }}</a></li>
+              {% endfor %}
+              {% if questions.has_next %}
+              <li><a href="{{ request.path|add:querystring }}&page={{ questions.next_page_number }}">&raquo;</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %} 

@@ -1,0 +1,25 @@
+{% extends "itemrtweb/control-pageland.html" %}
+
+{% block control-content %}
+            <h2>已标记的问题</h2>
+            <div class="panel panel-default">
+              <table class="table table-striped panel-body">
+                <thead>
+                  <th>报告 ID</th>
+                  <th>题目 ID</th>
+                  <th>用户</th>
+                  <th>问题</th>
+                </thead>
+                <tbody>
+                  {% for flag in flagged_qns %}
+                  <tr>
+                    <td>{{ flag.id }}</td>
+                    <td><a href="/prototype/preview/question/{{ flag.question.id }}/">{{ flag.question.id }}</a></td>
+                    <td title="Email: {{user.email}}">{{ flag.user.get_full_name }}</td>
+                    <td>{{ flag.issue }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+{% endblock %}

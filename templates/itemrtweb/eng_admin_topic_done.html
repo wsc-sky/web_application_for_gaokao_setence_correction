@@ -1,0 +1,65 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Analyse{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+        
+<div class="col-lg-12">
+          
+<h1>分析语法项目分布情况</h1>
+          
+<blockquote>
+            
+<p>分析自动语法项目生成的有效性</p>
+                    
+</blockquote>
+
+					
+<table class="table table-striped panel-body">
+           
+<thead>
+<th>语法项目</th>
+<th>总和</th>            
+<th>正确</th>
+<th>%</th>
+<th>错误</th>
+<th>%</th>
+</thead>
+
+                
+<tbody>
+
+{% for topic in topics %}                                  
+<tr>
+<td> {{topic.name}}</td>                                     
+<td> {{ alist|keyvalue:topic.id}}</td>
+<td> {{ tlist|keyvalue:topic.id}}</td>
+<td> {{ tplist|keyvalue:topic.id}} %</td>
+<td> {{ flist|keyvalue:topic.id}}</td>
+<td> {{ fplist|keyvalue:topic.id}} %</td>
+</tr>                
+{% endfor %} 
+<tr>
+
+<td><b> 总和</b></td>                                     
+<td><b> {{ alist|keyvalue:"all"}}</b></td>
+<td><b>{{ tlist|keyvalue:"all"}}</b></td>
+<td><b> {{ tplist|keyvalue:"all"}} %</b></td>
+<td><b> {{ flist|keyvalue:"all"}}</b></td>
+<td><b> {{ fplist|keyvalue:"all"}} %</b></td>
+
+</tr>
+</div>			
+</div>
+
+
+{% endblock %}

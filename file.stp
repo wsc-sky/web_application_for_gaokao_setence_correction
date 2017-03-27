@@ -1,0 +1,21 @@
+(ROOT
+  (S
+    (NP
+      (NP (NN derek))
+      (SBAR
+        (WHNP (WP who))
+        (S
+          (VP (VBZ is)
+            (VP (VBG *)
+              (NP (NN university) (NN undergraduate)))))))
+    (VP (VBD spoke)
+      (PP (TO to)
+        (NP
+          (NP (PRP us))
+          (PP (IN for)
+            (X (SYM *)))))
+      (NP (NN hour))
+      (PP (IN during)
+        (NP (NN assembly))))
+    (. .)))
+

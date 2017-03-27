@@ -1,0 +1,34 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}About{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+
+The Grammar Express is a web-based system done by a final year undergraduate.  This project aims to investigate grammatical pattern analysis and retrieval for English Discrete Grammar Multiple choice Questions. 
+In the primary school leaving examination, otherwise known as PSLE, English examination, grammar forms an important component.  In this project, we will investigate grammar pattern analysis technique for analyzing the grammar questions from past exam papers. In addition, sentence retrieval could be investigated for retrieving similar grammar questions based on the grammar patterns.
+The Grammar Express has arranged its content in an easy and manageable sequence aimed at primary school learners. Students may follow the recommended sequence or explore on their own.
+Firstly, the Learn section provides a topical revision on the English grammar topics. After recapping the topic content, they can then go on to practice on questions on the topic. This is done through the Paper Practice. The paper Practice takes in user specification and generates practices for students. It allows students to try out the different topic and difficulty level.
+The Grammar Express supports two tests mechanism. The Paper Test generate papers based on user specification while the Computerised Adaptive Testing focuses on difficulty level based on the learners ability.
+The difficulty level of the individual questions is computed based on the Flesch-Kincaid Grade Level formula and the height of the parser tree. The C A T test will generate questions based on the user ability as such not to overwhelm the student.
+
+The progress sections records the learning journey of the student and allow them to review the mistakes they have made. It allows them to know the standing of the different topics and encourages them to work on more questions towards excellence.
+
+A forum is built with the aim for learners to carry out online asynchronous discussion. Research has shown that forum discussion can promote a student’s critical thinking skills through the 4 stages Questioning, Expressing Agreements, Providing Opinions or Explanations and Challenging Others’ Viewpoints. User may post their own query or take part in discussion by others.
+The tag cloud analyser allows user to look the distribution of tags and filter them by topic. User may click on the tags to filter out the relevant questions.
+The Adaptive Search mechanism allows learners to search for questions they are having trouble with. The search mechanism is a rule-based matching system and is a combination of word search and pattern search, providing a well-rounded search engine for English grammar questions. Components such as spell checker and stemming of words allows for better search results. The questions are sorted in accordance to their relevancy calculated by the cosine similarity formula. The question recommender recommends related question.
+Apart from features related to learners, administrator enjoys a whole range of functions allowing the convenience of managing the questions and tags.
+In question management, the administrator may insert, edit or delete questions. Addition of questions is done easily with the minimizing on the entry on user. The clean form format allows user to add questions with ease. The relevant components of a question will then be generated automatically. Examples include the difficulty level, parser, keyword tags and topic classification. The other functions supported are question editing and deleting. Administrator may also browse through the various questions with an user-friendly interface.
+Tag managements allow the administrator to perform actions such as insert, view and deleting of tags. The keyword tags provide a short explanation and examples for user – allowing learners to perform Tag search and Tag cloud analysing.
+The tags are automatically tagged to question in the relevant topic, reducing workload on the administrator side. 
+
+
+
+{% endblock %}

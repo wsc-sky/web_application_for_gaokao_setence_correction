@@ -1,0 +1,94 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+{% load comments itemrtfilter %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+      <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>Practice Proficiency</h1>
+          <blockquote>
+            <p>Look at your topical breakdown thus far. </p>
+            <small>Improve on your weak areas.</small>
+          </blockquote>
+
+
+<p><b> Topic Breakdown </b></p>
+<small class="pull-right"><a href="/practice/paper" class="btn btn-primary btn-sm" role="button">Take a Paper Practice Now</a></small></p>
+<br><br><br>
+<div class="panel panel-default">
+
+
+<div class="panel panel-default">
+
+
+
+<table class="table table-striped panel-body">
+                
+<thead>
+                  
+
+                  
+<th>Topic</th>
+                  
+<th>Paper Practice Score</th>
+<th>Percentage</th>
+<th>Status</th>
+             
+</thead>
+                
+<tbody>
+                  
+{% for topic in topics %}
+                  
+<tr>
+                   
+<td>{{ topic.name }}</td>
+<td> {{correct|keyvalue:topic.id}} / {{total|keyvalue:topic.id}}</td>                    
+<td> {{topic_ability|keyvalue:topic}} </td>
+
+<td>
+<div class="progress">
+                    {% if topic_ability|keyvalue:topic == None %}
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>
+                    <div style="text-align: center; font-size: 12px;">Practise now to see your score</div>
+                    {% elif topic_ability|keyvalue:topic <= 40 %}
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%; min-width: 40%;">
+                      <span>Work harder! </span>
+                    </div>
+                    {% elif topic_ability|keyvalue:topic <= 60 %}
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 60%;">
+                      <span>Good! </span>
+                    </div>
+                    {% elif topic_ability|keyvalue:topic <= 80 %}
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 80%;">
+                      <span>Very Good! </span>
+                    </div>
+                    {% else %}
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ topic_ability|keyvalue:topic }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ topic_ability|keyvalue:topic }}%;min-width: 100%;">
+                      <span>Excellent! </span>
+                    </div>
+                    {% endif %}
+                  </div>
+</td>
+
+
+</tr>
+                  
+
+{% endfor %}
+                
+</tbody>
+              
+</table>
+</div>
+
+
+
+           
+
+
+{% endblock %}

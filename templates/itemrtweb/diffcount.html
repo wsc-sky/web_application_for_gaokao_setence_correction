@@ -1,0 +1,69 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Analyse{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+        
+<div class="col-lg-12">
+          
+<h1>分析难易程度</h1>
+          
+<blockquote>
+            
+<p>纵观所有问题的难度分布</p>
+            
+        
+</blockquote>
+
+
+<table class="table table-striped panel-body">
+           
+<thead>
+<th>语法项目</th>
+<th>1</th>            
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th><b>总和</b></th> 
+</thead>
+
+                
+<tbody>
+
+{% for topic in topics %}                                  
+<tr>
+<td> {{topic.name}}</td>                                     
+<td> {{ list1|keyvalue:topic.name}}</td>
+<td> {{ list2|keyvalue:topic.name}}</td>
+<td> {{ list3|keyvalue:topic.name}}</td>
+<td> {{ list4|keyvalue:topic.name}}</td>
+<td> {{ list5|keyvalue:topic.name}}</td>
+<td> <b>{{ listall|keyvalue:topic.name}}</b></td>
+</tr>                
+{% endfor %} 
+
+<tr>
+<td> <b>总和</b></td>
+<td> <b>{{ list1|keyvalue:"all"}}</b></td>
+<td> <b>{{ list2|keyvalue:"all"}}</b></td>
+<td> <b>{{ list3|keyvalue:"all"}}</b></td>
+<td> <b>{{ list4|keyvalue:"all"}}</b></td>
+<td> <b>{{ list5|keyvalue:"all"}}</b></td>
+<td> <b>{{ listall|keyvalue:"all"}}</b></td>
+</tr> 
+             
+</tbody>
+              
+</table>
+</div></div>
+{% endblock %}

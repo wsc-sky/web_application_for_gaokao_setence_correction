@@ -1,0 +1,132 @@
+﻿{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}Forum{% endblock %}
+
+{% block extrastyle %}
+    <link href="{% static 'css/jquery.tagit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagit.ui-zendesk.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+      <h1>Forum</h1>
+        <div class="row">
+          <div class="col-md-3" style="min-height: 800px;">
+            <div id="list-question-filter" data-spy="affix" data-offset-top="80">
+              <p><a href="/forum/insert/" class="btn btn-success form-control">Insert New Query</a></p>
+              <ul class="nav nav-tabs">
+                <li{% if not tags %} class="active"{% endif %}><a href="#filter-topic" data-toggle="tab">Topic</a></li>
+			</ul>
+              <div class="tab-content">
+                <div class="tab-pane{% if not tags %} active{% endif %}" id="filter-topic">
+                  <ul class="nav nav-pills nav-stacked">
+                    {% for topic in topics %}
+                    <li{% ifequal selected_topic topic %} class="active"{% endifequal %}><a href="/forum/{{ topic.id }}/">{{ topic.name }} ({{topic_count|keyvalue:topic}})</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            {% if request.GET.msg %}
+            <div id="list-question-alert" class="alert alert-success" data-spy="affix" data-offset-top="80"><strong>{{ request.GET.msg }}</strong></div>
+{# Filtering Questions with Tags #}
+            {% elif tags %}
+            <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{count}}</strong> Questions related to : {{tags}} ( {{key}} ) </div>
+{# Filtering Questions with Difficulty (and topic) #}
+            {% elif questions and request.GET.difficulty %}
+            <div class="alert{% if questions %} alert-success{% else %} alert-danger{% endif %}"><strong>{{ questions.count }}</strong> questions in <strong>{{ selected_topic.name }}</strong> with difficulty of <strong>{% if request.GET.difficulty == '1' %}Very Easy{% elif request.GET.difficulty == '2' %}Easy{% elif request.GET.difficulty == '3' %}Average{% elif request.GET.difficulty == '4' %}Difficult{% elif request.GET.difficulty == '5' %}Very Difficult{% else %}{{ request.GET.difficulty }}{% endif %}</strong></div>
+            {# Filtering Questions with Topic #}
+            {% elif questions %}
+            <!---<div class="alert alert-success"><strong>Select a thread below.</strong> </div>--->
+            {# Nothing filtered #}
+            {% else %}
+            <div class="alert alert-info">No thread under this topic. Add a query or Select a topic on the left to list threads.</div>
+            {% endif %}
+            
+<!---{% for question in questions %}
+            <div class="row" style="padding-bottom: 20px;">
+              <div id="question-{{ question.id }}" class="anchor"></div>
+              <div id="qlabel" class="col-md-12">
+
+
+                <h3>Thread {{ question.id }}</h3>
+              </div>
+              <div class="col-md-12">
+              
+                {% autoescape off %}
+               <h4> {% if question.view < 2 %} View: {% else %} Views: {% endif %}{{ question.view}} 
+		{% if question.view < 2 %} Reply: {% else %} Replies: {% endif %} {{question.reply}}</h4> <br>
+               {{ question.content}} <br>
+	 <div class="text-right"><a href="{{ question.id }}" class="btn btn-primary btn-sm" role="button">View</a></div>
+                {% endautoescape %}
+                <br>
+                
+              </div>
+            </div>
+            {% endfor %}--->
+
+
+<table class="table table-striped panel-body">
+                
+<thead>
+                  
+
+                  
+<th>Thread</th>
+                  
+<th>Last Post</th>
+                  
+<th>Reply(s)</th>
+ 
+<th>View(s)</th>    
+
+<th></th>           
+</thead>
+
+                
+<tbody>
+{% for question in questions %}                                  
+<tr>
+                   
+
+                    
+<td> <a href="{{question.id}}"> {{ question.content}} </a></td>
+
+<td>{{ question.latest }}</td>
+
+<td> {{question.reply}} </td>
+
+
+<td>{{ question.view}}</td>
+
+<td> <a href="{{ question.id }}" class="btn btn-primary btn-sm" role="button">View</a></td>
+</tr>
+                  
+ {% endfor %}               
+</tbody>
+              
+</table>
+
+             <div>
+                <ul class="pager">
+                  {% if questions.paginator.count > 0 %}
+                  <li><a href="#">Page {{ questions.number }} of {{ questions.paginator.num_pages }}</a></li>
+                  {% endif %}
+                  {% if questions.has_previous %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ questions.previous_page_number }}">&laquo;</a></li>
+                  {% endif %}
+                  {% for page in questions.paginator.page_range %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ page }}">{{ page }}</a></li>
+                  {% endfor %}
+                  {% if questions.has_next %}
+                  <li><a href="{{ request.path|add:querystring }}&page={{ questions.next_page_number }}">&raquo;</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+                     </div>
+      </div>
+{% endblock %} 

@@ -1,0 +1,55 @@
+{% extends "itemrtweb/control-empty.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block control-content %}
+            
+<h2>Questions Statistics</h2>
+            
+
+<div class="panel panel-default">
+              
+
+<table class="table table-striped panel-body">
+                
+
+<thead>
+                  
+<th>Q ID</th>
+                  
+<th>Topic</th>
+                  
+<th>Total Attempts</th>
+                  
+<th>Correctness</th>
+
+<th>Percentage</th>               
+</thead>
+                
+
+<tbody>
+                  
+{% for q in qns %}
+                  
+<tr>
+                    
+<td><a href="/browse/question/{{q.id}}">{{ q.id }}</a></td>
+                    
+<td>{{ q.topic}}</a></td>
+                    
+<td>{{ count|keyvalue:q.id }}</td>
+                           
+</tr>
+                  
+{% endfor %}
+                
+</tbody>
+              
+
+</table>
+            
+
+</div>
+
+
+{% endblock %}

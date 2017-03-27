@@ -1,0 +1,90 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+{% load comments %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+      <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>Practice History</h1>
+          <blockquote>
+            <p>Look at your practice efforts thus far. </p>
+            <small>Work hard and keep going!! </small>
+          </blockquote>
+
+<p><b>Paper Practice History </b>
+<small class="pull-right"><a href="/practice/paper" class="btn btn-primary btn-sm" role="button">Take a Paper Practice Now</a></small></p><br>
+<div class="panel panel-default">
+
+              
+<table class="table table-striped panel-body">
+                
+<thead>
+                  
+<th>S/N</th>
+                  
+<th>ID</th>
+                  
+<th>Date</th>
+<th>Topic Tested</th>
+ 
+<th>Score</th>  
+<th>Percentage</th>
+             
+</thead>
+                
+<tbody>
+                  
+{% for test in tests %}
+
+
+<tr>
+                   
+<td>{{ forloop.counter }}</td>
+                    
+<td> <a href="/practice/paper/submit/{{test.id}}">{{test.id}}</a> </td>
+
+
+<td>{{test.generated}}</td>
+<td>{{wlist|keyvalue:test.id }}</td>
+
+<td>{{ tlist|keyvalue:test.id }} / {{ qlist|keyvalue:test.id }} </td>
+
+<td>{{ plist|keyvalue:test.id }} % </td>
+
+</tr>
+                  
+
+{% endfor %}
+                
+</tbody>
+              
+</table>
+
+</div>
+
+<!-- <p><b> Questions Commented </b></p>
+{% if questions_commented %}
+          <div class="row row-thumbnail">
+            <div class="col-xs-12">
+              <div class="thumbnail">
+                <div class="caption">
+                  {% for question in questions_commented %}
+                  <div class="media">
+                    <div class="media-body">
+                      {% get_comment_count for question as comment_count %}
+                      <h4 class="media-heading">Question {{question.id}} <small> in {{question.topic}}</small><small class="pull-right"><a href="/search/question/{{question.id}}/">{{comment_count}} comments</a></small></h4>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %} -->
+           
+
+
+{% endblock %}

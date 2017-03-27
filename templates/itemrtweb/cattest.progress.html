@@ -1,0 +1,126 @@
+{% extends "template.base.html" %}
+
+{% load staticfiles itemrtfilter %}
+
+{% block title %}CAT Test History{% endblock %}
+
+{% block content %}
+      <div id="practice_home" class="row">
+        <div class="col-lg-12">
+          <h1>CAT 历史记录</h1>
+          <blockquote>
+            <p>历史练习记录 </p>
+            <small>有针对性的练习，提高语法水平!!</small>
+          </blockquote>
+
+<p><b>CAT 历史记录</b>
+<small class="pull-right"><a href="/test/cat/" class="btn btn-primary btn-sm" role="button">开始CAT测试</a></small></p><br>
+
+<div class="panel panel-default">
+
+              
+<table class="table table-striped panel-body">
+                
+<thead>           
+<th>序号</th>
+<th>ID</th>
+<th>日期</th>
+<th>分数</th>  
+<th>题目数量</th>  
+<th>结果</th>
+<th>是否完成测试</th>
+             
+</thead>
+                
+<tbody>
+                  
+{% for test in test1 %}
+
+<tr>
+                   
+<td>{{ forloop.counter }}</td>
+                    
+<td> {% if blist|keyvalue:test.id == 0%}{{test.id}}{% else %}<a href="/test/cat/{{test.id}}/">{{test.id}}</a>{% endif %} </td>
+
+<td>{{test.generated|date:'Y-m-d H:i'}} </td>
+
+<td>{{ alist|keyvalue:test.id }} </td>
+<td> {{ blist|keyvalue:test.id }} </td>
+<td>
+{% if clist|keyvalue:test.id == -3 %} 级别 1
+{% elif clist|keyvalue:test.id == -1.5 %} 级别 2
+{% elif clist|keyvalue:test.id == 0 %} 级别 3
+{% elif clist|keyvalue:test.id == 1.5 %} 级别 4
+{% elif clist|keyvalue:test.id == 3 %} 级别 5
+{% endif %}
+</td>
+<td>{%if test.state%} 是
+	{%else%} 否
+	{% endif %}
+</td>
+
+</tr>
+{% endfor %}
+                
+</tbody>
+              
+<!--
+</table>
+</div>
+<p><b>Paper Test History</b>
+<small class="pull-right"><a href="/test/paper/" class="btn btn-primary btn-sm" role="button">Take a Paper Test Now</a></small></p><br>
+
+<div class="panel panel-default">
+
+              
+<table class="table table-striped panel-body">
+                
+<thead>
+                  
+
+                  
+<th>S/N</th>
+                  
+<th>ID</th>
+                  
+<th>Date</th>
+<th>Topics Tested</th>
+<th>Score</th>  
+<th>Percentage</th>
+             
+</thead>
+                
+<tbody>
+                  
+{% for test in tests %}
+
+
+<tr>
+                   
+<td>{{ forloop.counter }}</td>
+                    
+<td> <a href="/test/paper/submit/{{test.id}}/">{{test.id}}</a> </td>
+
+
+<td>{{test.generated}} </td>
+
+<td>{% for a in wlist|keyvalue:test.id %} {{a}}/ {% endfor %}</td>
+
+
+<td>{{ tlist|keyvalue:test.id }} / {{ qlist|keyvalue:test.id }} </td>
+
+<td>{{ plist|keyvalue:test.id }} %</td>
+
+</tr>
+                  
+
+{% endfor %}
+                
+</tbody>
+              
+</table>
+-->
+</div>
+
+
+{% endblock %}
