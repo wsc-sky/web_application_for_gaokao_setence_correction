@@ -1,4 +1,4 @@
-Django==1.7.11
+Django==1.8.6
 django-inspect==0.4.1
 mysql==0.0.1
 nltk==3.2.2
