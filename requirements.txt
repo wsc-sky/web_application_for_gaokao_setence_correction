@@ -1,8 +1,8 @@
 Django==1.8.6
+django-contrib-comments==1.7.2
 django-inspect==0.4.1
 mysql==0.0.1
 nltk==3.2.2
 numpy==1.12.0
 requests==2.12.5
 six==1.10.0
-django-contrib-comments==1.8.0
